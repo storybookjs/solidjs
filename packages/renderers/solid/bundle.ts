@@ -1,10 +1,10 @@
-import { build } from 'tsup';
 import fs from 'fs';
+import { build } from 'tsup';
 import { solidPlugin } from 'esbuild-plugin-solid';
 
 const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
-const { devDependencies, dependencies } = packageJson;
-const external = [...Object.keys({ ...devDependencies, ...dependencies })];
+const { devDependencies } = packageJson;
+const external = [...Object.keys({ ...devDependencies })];
 const entry = ['src/config.ts', 'src/index.ts'];
 
 build({

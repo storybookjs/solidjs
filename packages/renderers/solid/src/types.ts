@@ -1,5 +1,5 @@
 import type { Component, JSXElement } from 'solid-js';
-import type { WebRenderer } from '@storybook/types';
+import type { Args, RenderContext, WebRenderer } from '@storybook/types';
 
 export type { RenderContext } from '@storybook/types';
 export type { StoryContext } from '@storybook/types';
@@ -19,3 +19,4 @@ export interface ShowErrorArgs {
 }
 
 export type StoryFnSolidReturnType = JSXElement;
+export type ComponentsData = { [key: string]: { args: Args } };
