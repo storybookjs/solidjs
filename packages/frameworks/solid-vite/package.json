@@ -1,0 +1,85 @@
+{
+  "name": "storybook-solidjs-vite",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Storybook for SolidJS and Vite: Develop SolidJS in isolation with Hot Reloading.",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/solid-vite",
+  "bugs": {
+    "url": "https://github.com/storybookjs/solidjs/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/solidjs.git",
+    "directory": "frameworks/solid-vite"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "node": "./dist/index.js",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./preset": {
+      "require": "./dist/preset.js",
+      "import": "./dist/preset.mjs",
+      "types": "./dist/preset.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "template/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "build": "node --loader ts-node/esm bundle.ts",
+    "publish-local": "npm publish --registry http://localhost:6001",
+    "unpublish-local": "npm unpublish storybook-solidjs-vite@1.0.0 --registry http://localhost:6001"
+  },
+  "dependencies": {
+    "@storybook/builder-vite": "7.0.0-beta.36"
+  },
+  "devDependencies": {
+    "@storybook/addons": "7.0.0-beta.36",
+    "@storybook/channel-postmessage": "7.0.0-beta.36",
+    "@storybook/channel-websocket": "7.0.0-beta.36",
+    "@storybook/client-api": "7.0.0-beta.36",
+    "@storybook/core-server": "7.0.0-beta.36",
+    "@storybook/node-logger": "7.0.0-beta.36",
+    "@storybook/preview-web": "7.0.0-beta.36",
+    "@types/node": "^16.0.0",
+    "magic-string": "^0.26.1",
+    "storybook-solidjs": "^1.0.0",
+    "ts-node": "^10.9.1",
+    "tsup": "^6.5.0",
+    "typescript": "~4.9.3",
+    "vite-plugin-solid": "^2.5.0"
+  },
+  "engines": {
+    "node": "^14.18 || >=16"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/preset.ts"
+    ],
+    "platform": "node"
+  },
+  "gitHead": "6559b419625c2dcf76bad1a12fcf75e3dd7c4187"
+}
