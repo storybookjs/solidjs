@@ -1,0 +1,85 @@
+{
+  "name": "storybook-solidjs",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Storybook SolidJS renderer",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/renderers/solid",
+  "bugs": {
+    "url": "https://github.com/storybookjs/solidjs/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/solidjs.git",
+    "directory": "renderers/solid"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "node": "./dist/index.js",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./preview": {
+      "require": "./dist/config.js",
+      "import": "./dist/config.mjs",
+      "types": "./dist/config.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "template/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "build": "node --loader ts-node/esm bundle.ts",
+    "publish-local": "npm publish --registry http://localhost:6001",
+    "unpublish-local": "npm unpublish storybook-solidjs@1.0.0 --registry http://localhost:6001"
+  },
+  "devDependencies": {
+    "@storybook/core-client": "7.0.0-beta.36",
+    "@storybook/docs-tools": "7.0.0-beta.36",
+    "@storybook/global": "^5.0.0",
+    "@storybook/preview-api": "7.0.0-beta.36",
+    "@storybook/types": "7.0.0-beta.36",
+    "babel-preset-solid": "^1.6.6",
+    "esbuild-plugin-alias": "^0.2.1",
+    "esbuild-plugin-solid": "^0.4.2",
+    "solid-js": "^1.6.6",
+    "ts-dedent": "^2.0.0",
+    "ts-node": "^10.9.1",
+    "tsup": "^6.5.0",
+    "typescript": "~4.9.3"
+  },
+  "peerDependencies": {
+    "babel-preset-solid": "^1.6.6",
+    "solid-js": "^1.6.6"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/config.ts"
+    ],
+    "platform": "browser"
+  },
+  "gitHead": "6559b419625c2dcf76bad1a12fcf75e3dd7c4187"
+}
