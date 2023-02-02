@@ -14,7 +14,12 @@ expect.addSnapshotSerializer({
 
 const tick = () => new Promise((r) => setTimeout(r, 0));
 
-const makeContext = (name: string, parameters: any, args: any, extra?: object): StoryContext =>
+const makeContext = (
+  name: string,
+  parameters: any,
+  args: any,
+  extra?: object
+): StoryContext =>
   ({
     id: `html-test--${name}`,
     kind: 'js-text',
@@ -125,6 +130,9 @@ describe('sourceDecorator', () => {
     const docs = { transformSource };
     const context = makeContext('args', { __isArgsStory: true, docs }, {});
     sourceDecorator(storyFn, context);
-    expect(transformSource).toHaveBeenCalledWith('<div>args story</div>', context);
+    expect(transformSource).toHaveBeenCalledWith(
+      '<div>args story</div>',
+      context
+    );
   });
 });
