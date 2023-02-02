@@ -16,6 +16,11 @@ import type { ComponentsData, SolidRenderer, StoryContext } from './types';
  */
 const [store, setStore] = createStore({} as ComponentsData);
 
+//Delay util fn
+const delay = async (ms: number = 50) => {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 //Global variables
 let globals: StoryContext<SolidRenderer>['globals']; //Storybook view configurations.
 let componentId: string; //Unique component story id.
@@ -27,30 +32,28 @@ let viewMode: string; //It can be story or docs.
  * e.g. dark theme, show grid, etc...
  */
 const remount = (force: boolean, context: StoryContext<SolidRenderer>) => {
+  let flag = false;
+
   // Story view mode has changed
-  if (viewMode !== context.viewMode) {
-    viewMode = context.viewMode;
-    return true;
-  }
+  if (viewMode !== context.viewMode) flag = true;
 
   // Force flag is set to true.
-  if (force) {
-    return true;
-  }
+  if (force) flag = true;
 
   // Globals refers to storybook visualization options.
-  if (!Object.is(globals, context.globals)) {
-    globals = context.globals;
-    return true;
-  }
+  if (!Object.is(globals, context.globals)) flag = true;
 
   // Story main url id has changed
-  if (componentId !== context.componentId) {
+  if (componentId !== context.componentId) flag = true;
+
+  // Global values are updated when remount is true
+  if (flag === true) {
+    viewMode = context.viewMode;
+    globals = context.globals;
     componentId = context.componentId;
-    return true;
   }
 
-  return false;
+  return flag;
 };
 
 /**
@@ -150,6 +153,10 @@ export async function renderToCanvas(
 
   // Story is rendered and store data is created
   if (store[storyId] === undefined) {
+    // Delays the first render in 50ms for waiting dom nodes
+    // for rendering all the stories in docs mode when global changes.
+    if (storyContext.viewMode === 'docs') await delay();
+
     setStore({ [storyId]: { args: storyContext.args } });
 
     const App: Component = () => {
