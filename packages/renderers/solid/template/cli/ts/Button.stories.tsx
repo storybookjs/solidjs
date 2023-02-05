@@ -1,18 +1,44 @@
-import type { StoryObj, Meta } from '@storybook/html';
-import type { ButtonProps } from './Button';
+import type { Meta, StoryObj } from 'storybook-solidjs';
+
 import { Button } from './Button';
 
-// More on how to set up stories at: https://storybook.js.org/docs/html/writing-stories/introduction#default-export
-const meta: Meta<ButtonProps> = {
+// More on how to set up stories at: https://storybook.js.org/docs/7.0/solid/writing-stories/introduction
+const meta = {
   title: 'Example/Button',
+  component: Button,
   tags: ['autodocs'],
-  render: (args) => <Button {...args} />,
-};
+  argTypes: {
+    backgroundColor: { control: 'color' },
+  },
+} satisfies Meta<typeof Button>;
 
 export default meta;
-type Story = StoryObj<ButtonProps>;
+type Story = StoryObj<typeof meta>;
 
-// More on writing stories with args: https://storybook.js.org/docs/7.0/html/writing-stories/args
+// More on writing stories with args: https://storybook.js.org/docs/7.0/solid/writing-stories/args
 export const Primary: Story = {
-  args: {},
+  args: {
+    primary: true,
+    label: 'Button',
+  },
+};
+
+export const Secondary: Story = {
+  args: {
+    label: 'Button',
+  },
+};
+
+export const Large: Story = {
+  args: {
+    size: 'large',
+    label: 'Button',
+  },
+};
+
+export const Small: Story = {
+  args: {
+    size: 'small',
+    label: 'Button',
+  },
 };
