@@ -1,0 +1,22 @@
+{
+  "name": "storybook-solidjs",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Storybook SolidJS",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/renderers/solid",
+  "bugs": {
+    "url": "https://github.com/storybookjs/solidjs/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/solidjs.git"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT"
+}

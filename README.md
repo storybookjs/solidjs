@@ -25,7 +25,7 @@ This is a framework to allow using [Storybook](https://storybook.js.org/) with [
 
 ## Setup
 
-In an existing Solid project, run `npx storybook@next init` (Storybook 7 is required)
+In an existing Solid project, run `npx storybook@next init` (Storybook 7+ is required)
 
 See the [Storybook Docs](https://storybook.js.org/docs/7.0/solid/get-started/introduction) for the best documentation on getting started with Storybook.
 

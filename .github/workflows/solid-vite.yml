@@ -1,0 +1,42 @@
+name: Solid Vite Pipeline
+on:
+  pull_request:
+    branches:
+      - '*'
+    paths:
+      - packages/frameworks/solid-vite/**
+  push:
+    branches:
+      - master
+    paths:
+      - packages/lib/**
+  release:
+    types: [published]
+    branches:
+      - master
+defaults:
+  run:
+    working-directory: packages/frameworks/solid-vite
+jobs:
+  lib-workflow:
+    runs-on: ubuntu-latest
+    name: Lib workflow
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: ./.github/workflows/actions/setup-node
+      - name: Install dependencies
+        run: yarn
+        shell: bash
+      - name: 'Build'
+        run: yarn build
+        shell: bash
+      - name: 'Publish to npm'
+        if: github.event_name == 'release'
+        run: npm publish
+        shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ inputs.npm-token }}
+        with:
+          npm-token: ${{ secrets.NPM_TOKEN }}
