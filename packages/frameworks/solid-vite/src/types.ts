@@ -4,7 +4,7 @@ import type {
   BuilderOptions,
 } from '@storybook/builder-vite';
 
-type FrameworkName = '@storybook/react-vite';
+type FrameworkName = 'storybook-solidjs-vite';
 type BuilderName = '@storybook/builder-vite';
 
 export type FrameworkOptions = {

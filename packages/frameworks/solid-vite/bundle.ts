@@ -10,6 +10,26 @@ build({
   entry,
   clean: true,
   outDir: 'dist',
+  format: ['esm'],
+  target: 'chrome100',
+  platform: 'browser',
+  external,
+  esbuildOptions: (c) => {
+    c.conditions = ['module'];
+    c.platform = 'browser';
+  },
+  dts: true,
+  outExtension() {
+    return {
+      js: '.mjs',
+    };
+  },
+});
+
+build({
+  entry,
+  clean: true,
+  outDir: 'dist',
   format: ['cjs'],
   target: 'node16',
   platform: 'node',
