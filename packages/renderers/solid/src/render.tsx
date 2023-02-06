@@ -17,7 +17,7 @@ import type { ComponentsData, SolidRenderer, StoryContext } from './types';
 const [store, setStore] = createStore({} as ComponentsData);
 
 //Delay util fn
-const delay = async (ms: number = 50) => {
+const delay = async (ms: number = 20) => {
   await new Promise((resolve) => setTimeout(resolve, ms));
 };
 
@@ -25,6 +25,7 @@ const delay = async (ms: number = 50) => {
 let globals: StoryContext<SolidRenderer>['globals']; //Storybook view configurations.
 let componentId: string; //Unique component story id.
 let viewMode: string; //It can be story or docs.
+let firstStoryId: string; //Saved first store id in docs mode to accumulate args.
 
 /**
  * Checks when the story requires to be remounted.
@@ -51,6 +52,7 @@ const remount = (force: boolean, context: StoryContext<SolidRenderer>) => {
     viewMode = context.viewMode;
     globals = context.globals;
     componentId = context.componentId;
+    firstStoryId = context.storyId;
   }
 
   return flag;
@@ -120,6 +122,62 @@ const cleanCanvas = () => {
 };
 
 /**
+ * Checks if the story store exists
+ */
+const storeExists = (storyId: string) => Boolean(store[storyId]);
+
+/**
+ * Checks if the story is in docs mode.
+ */
+const isDocsMode = (context: StoryContext<SolidRenderer, Args>) =>
+  context.viewMode === 'docs';
+
+/**
+ * Updates story store
+ */
+const updateStoryArgs = (storyId: string, args: Args) => {
+  setStore(storyId, 'args', (prev) => ({
+    ...prev,
+    ...args,
+  }));
+};
+
+/**
+ * Renders solid App into DOM.
+ */
+const renderSolidApp = (
+  storyId: string,
+  renderContext: RenderContext<SolidRenderer>,
+  canvasElement: SolidRenderer['canvasElement']
+) => {
+  const { storyContext, unboundStoryFn, showMain, showException } =
+    renderContext;
+
+  setStore({ [storyId]: { args: storyContext.args } });
+
+  const App: Component = () => {
+    const Story = unboundStoryFn as Component<StoryContext<SolidRenderer>>;
+
+    onMount(() => {
+      showMain();
+    });
+
+    return (
+      <ErrorBoundary
+        fallback={(err) => {
+          showException(err);
+          return err;
+        }}
+      >
+        <Story {...storyContext} />
+      </ErrorBoundary>
+    );
+  };
+
+  return solidRender(() => <App />, canvasElement as HTMLElement);
+};
+
+/**
  * Main renderer function for initializing the SolidJS app
  * with the story content.
  */
@@ -127,58 +185,37 @@ export async function renderToCanvas(
   renderContext: RenderContext<SolidRenderer>,
   canvasElement: SolidRenderer['canvasElement']
 ) {
-  const { unboundStoryFn, storyContext, showMain, showException } =
-    renderContext;
+  const { storyContext } = renderContext;
   let forceRemount = renderContext.forceRemount;
   let storyId = storyContext.canvasElement.id;
 
-  //Initializes global default values for checking remounting.
+  // Initializes global default values for checking remounting.
   if (viewMode === undefined) viewMode = storyContext.viewMode;
   if (globals === undefined) globals = storyContext.globals;
   if (componentId === undefined) componentId = storyContext.componentId;
+  if (firstStoryId === undefined) firstStoryId = storyId;
 
   // In docs mode, forceRemount is always false because many stories are
   // rendered at same time.
-  if (storyContext.viewMode === 'docs') forceRemount = false;
+  if (isDocsMode(storyContext)) forceRemount = false;
 
   // Story is remounted given the conditions.
-  if (remount(forceRemount, storyContext)) {
+  if (remount(forceRemount, { ...storyContext, storyId })) {
     cleanCanvas();
   }
 
   // Story store data is updated
-  if (store[storyId] !== undefined) {
-    setStore(storyId, 'args', storyContext.args);
+  if (storeExists(storyId)) {
+    updateStoryArgs(storyId, storyContext.args);
   }
 
   // Story is rendered and store data is created
-  if (store[storyId] === undefined) {
-    // Delays the first render in 50ms for waiting dom nodes
+  if (storeExists(storyId) === false) {
+    // Delays the first render for waiting dom nodes
     // for rendering all the stories in docs mode when global changes.
-    if (storyContext.viewMode === 'docs') await delay();
+    if (isDocsMode(storyContext)) await delay();
 
-    setStore({ [storyId]: { args: storyContext.args } });
-
-    const App: Component = () => {
-      const Story = unboundStoryFn as Component<StoryContext<SolidRenderer>>;
-
-      onMount(() => {
-        showMain();
-      });
-
-      return (
-        <ErrorBoundary
-          fallback={(err) => {
-            showException(err);
-            return err;
-          }}
-        >
-          <Story {...storyContext} />
-        </ErrorBoundary>
-      );
-    };
-
-    const disposeFn = solidRender(() => <App />, canvasElement as HTMLElement);
+    const disposeFn = renderSolidApp(storyId, renderContext, canvasElement);
     disposeFns.push(disposeFn);
   }
 }
