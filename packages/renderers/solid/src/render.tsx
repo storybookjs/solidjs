@@ -44,7 +44,10 @@ const remount = (force: boolean, context: StoryContext<SolidRenderer>) => {
   if (!Object.is(globals, context.globals)) flag = true;
 
   // Story main url id has changed
-  if (componentId !== context.componentId) flag = true;
+  if (componentId !== context.componentId) {
+    flag = true;
+    unmountAll();
+  }
 
   // Global values are updated when remount is true
   if (flag === true) {
@@ -95,13 +98,12 @@ export const render: ArgsStoryFn<SolidRenderer> = (_, context) => {
 };
 
 /**
- * Dispose function for re-rendering the whole SolidJS app
- * when a story (storyId) is changed / remounted.
+ * All stories are disposed.
  */
-let disposeFns: Array<() => void> = [];
 let disposeAllStories = () => {
-  disposeFns.forEach((dispose) => dispose());
-  disposeFns = [];
+  Object.keys(store).forEach((storyId) => {
+    store[storyId]?.disposeFn?.();
+  });
 };
 
 /**
@@ -112,11 +114,33 @@ const cleanStore = () => {
 };
 
 /**
- * This function resets the canvas and reactive store.
+ * Unmounts all the store and rendered solid apps
  */
-const cleanCanvas = () => {
-  cleanStore();
+const unmountAll = () => {
   disposeAllStories();
+  cleanStore();
+};
+
+/**
+ * Resets an specific story store.
+ */
+const cleanStoryStore = (storeId: string) => {
+  setStore({ [storeId]: { args: {}, rendered: false, disposeFn: () => {} } });
+};
+
+/**
+ * Disposes an specific story.
+ */
+const disposeStory = (storeId: string) => {
+  store[storeId]?.disposeFn?.();
+};
+
+/**
+ * This function resets the canvas and reactive store for an specific story.
+ */
+const remountStory = (storyId: string) => {
+  disposeStory(storyId);
+  cleanStoryStore(storyId);
 };
 
 /**
@@ -129,17 +153,6 @@ const storyIsRendered = (storyId: string) => Boolean(store[storyId]?.rendered);
  */
 const isDocsMode = (context: StoryContext<SolidRenderer, Args>) =>
   context.viewMode === 'docs';
-
-/**
- * Updates story store
- */
-const updateStoryArgs = (storyId: string, args: Args) => {
-  if (storyIsRendered(storyId) === false) {
-    setStore({ [storyId]: { args } });
-  } else {
-    setStore(storyId, 'args', args);
-  }
-};
 
 /**
  * Renders solid App into DOM.
@@ -193,27 +206,21 @@ export async function renderToCanvas(
   if (globals === undefined) globals = storyContext.globals;
   if (componentId === undefined) componentId = storyContext.componentId;
 
-  // In docs mode, forceRemount is always false because many stories are
-  // rendered at same time.
-  if (isDocsMode(storyContext)) forceRemount = false;
-
   // Story is remounted given the conditions.
-  if (remount(forceRemount, { ...storyContext, storyId })) {
-    cleanCanvas();
+  if (remount(forceRemount, storyContext)) {
+    remountStory(storyId);
   }
 
   // Story store data is updated
-  updateStoryArgs(storyId, storyContext.args);
+  setStore(storyId, 'args', storyContext.args);
 
   // Story is rendered and store data is created
   if (storyIsRendered(storyId) === false) {
     // Delays the first render for waiting dom nodes
     // for rendering all the stories in docs mode when global changes.
-    if (isDocsMode(storyContext)) {
-      await delay();
-    }
+    if (isDocsMode(storyContext)) await delay();
 
     const disposeFn = renderSolidApp(storyId, renderContext, canvasElement);
-    disposeFns.push(disposeFn);
+    setStore(storyId, (prev) => ({ ...prev, disposeFn }));
   }
 }
