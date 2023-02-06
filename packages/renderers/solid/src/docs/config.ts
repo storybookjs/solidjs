@@ -1,19 +1,15 @@
-import { SourceType, enhanceArgTypes } from '@storybook/docs-tools';
+import {
+  extractComponentDescription,
+  enhanceArgTypes,
+} from '@storybook/docs-tools';
+import { jsxDecorator } from './jsxDecorator';
 
-import { sourceDecorator } from './sourceDecorator';
-
-export const decorators = [sourceDecorator];
+export const decorators = [jsxDecorator];
 
 export const parameters = {
   docs: {
-    inlineStories: true,
-    transformSource: undefined as unknown,
-    source: {
-      type: SourceType.DYNAMIC,
-      language: 'html',
-      code: undefined as unknown,
-      excludeDecorators: undefined as unknown,
-    },
+    story: { inline: true },
+    extractComponentDescription, //TODO solid-docgen plugin needs to be created.
   },
 };
 

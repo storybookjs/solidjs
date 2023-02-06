@@ -19,4 +19,6 @@ export interface ShowErrorArgs {
 }
 
 export type StoryFnSolidReturnType = JSXElement;
-export type ComponentsData = { [key: string]: { args: Args } };
+export type ComponentsData = {
+  [key: string]: { args: Args; rendered?: Boolean };
+};
