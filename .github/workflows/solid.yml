@@ -18,7 +18,7 @@ defaults:
   run:
     working-directory: packages/renderers/solid
 jobs:
-  lib-workflow:
+  solid-workflow:
     runs-on: ubuntu-latest
     name: Lib workflow
     steps:

@@ -1,24 +1,16 @@
 name: Solid Vite Pipeline
 on:
-  pull_request:
-    branches:
-      - '*'
-    paths:
-      - packages/frameworks/solid-vite/**
-  push:
-    branches:
-      - main
-    paths:
-      - packages/frameworks/solid-vite/**
-  release:
-    types: [published]
+  workflow_run:
+    workflows: ['Solid Renderer pipeline']
+    types:
+      - completed
     branches:
       - main
 defaults:
   run:
     working-directory: packages/frameworks/solid-vite
 jobs:
-  lib-workflow:
+  solid-vite-workflow:
     runs-on: ubuntu-latest
     name: Lib workflow
     steps:
