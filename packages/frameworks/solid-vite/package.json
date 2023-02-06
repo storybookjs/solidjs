@@ -24,10 +24,12 @@
     ".": {
       "node": "./dist/index.js",
       "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./preset": {
       "require": "./dist/preset.js",
+      "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
     "./package.json": "./package.json"
@@ -48,16 +50,16 @@
     "unpublish-local": "npm unpublish storybook-solidjs-vite@1.0.0 --registry http://localhost:6001"
   },
   "dependencies": {
-    "@storybook/builder-vite": "7.0.0-beta.36"
+    "@storybook/builder-vite": "next"
   },
   "devDependencies": {
-    "@storybook/addons": "7.0.0-beta.36",
-    "@storybook/channel-postmessage": "7.0.0-beta.36",
-    "@storybook/channel-websocket": "7.0.0-beta.36",
-    "@storybook/client-api": "7.0.0-beta.36",
-    "@storybook/core-server": "7.0.0-beta.36",
-    "@storybook/node-logger": "7.0.0-beta.36",
-    "@storybook/preview-web": "7.0.0-beta.36",
+    "@storybook/addons": "next",
+    "@storybook/channel-postmessage": "next",
+    "@storybook/channel-websocket": "next",
+    "@storybook/client-api": "next",
+    "@storybook/core-server": "next",
+    "@storybook/node-logger": "next",
+    "@storybook/preview-web": "next",
     "@types/node": "^16.0.0",
     "magic-string": "^0.26.1",
     "storybook-solidjs": "^1.0.0",
