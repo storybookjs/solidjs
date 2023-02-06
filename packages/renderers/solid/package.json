@@ -46,6 +46,7 @@
   ],
   "scripts": {
     "build": "node --loader ts-node/esm bundle.ts",
+    "install-local": "yarn install --registry http://localhost:6001 --no-lockfile",
     "publish-local": "npm publish --registry http://localhost:6001",
     "unpublish-local": "npm unpublish storybook-solidjs@1.0.0 --registry http://localhost:6001"
   },

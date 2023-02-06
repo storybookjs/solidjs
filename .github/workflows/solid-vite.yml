@@ -7,13 +7,13 @@ on:
       - packages/frameworks/solid-vite/**
   push:
     branches:
-      - master
+      - main
     paths:
-      - packages/lib/**
+      - packages/frameworks/solid-vite/**
   release:
     types: [published]
     branches:
-      - master
+      - main
 defaults:
   run:
     working-directory: packages/frameworks/solid-vite
@@ -37,6 +37,4 @@ jobs:
         run: npm publish
         shell: bash
         env:
-          NODE_AUTH_TOKEN: ${{ inputs.npm-token }}
-        with:
-          npm-token: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
