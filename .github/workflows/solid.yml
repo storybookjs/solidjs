@@ -1,4 +1,4 @@
-name: Solid Renderer pipeline
+name: Solid Renderer Pipeline
 on:
   pull_request:
     branches:

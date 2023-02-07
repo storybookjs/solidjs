@@ -1,7 +1,7 @@
 name: Solid Vite Pipeline
 on:
   workflow_run:
-    workflows: ['Solid Renderer pipeline']
+    workflows: ['Solid Renderer Pipeline']
     types:
       - completed
     branches:
