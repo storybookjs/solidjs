@@ -1,7 +1,7 @@
 {
   "name": "storybook-solidjs-vite",
   "type": "module",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Storybook for SolidJS and Vite: Develop SolidJS in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -48,7 +48,7 @@
     "build": "node --loader ts-node/esm bundle.ts",
     "install-local": "yarn install --registry http://localhost:6001 --no-lockfile",
     "publish-local": "npm publish --registry http://localhost:6001",
-    "unpublish-local": "npm unpublish storybook-solidjs-vite@1.0.0 --registry http://localhost:6001"
+    "unpublish-local": "npm unpublish storybook-solidjs-vite@1.0.0-beta.2 --registry http://localhost:6001"
   },
   "dependencies": {
     "@storybook/builder-vite": "next"

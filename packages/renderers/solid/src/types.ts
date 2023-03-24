@@ -1,5 +1,5 @@
 import type { Component, JSXElement } from 'solid-js';
-import type { Args, RenderContext, WebRenderer } from '@storybook/types';
+import type { Args, WebRenderer } from '@storybook/types';
 
 export type { RenderContext } from '@storybook/types';
 export type { StoryContext } from '@storybook/types';

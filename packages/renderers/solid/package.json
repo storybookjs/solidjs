@@ -1,7 +1,7 @@
 {
   "name": "storybook-solidjs",
   "type": "module",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Storybook SolidJS renderer",
   "keywords": [
     "storybook"
@@ -48,7 +48,7 @@
     "build": "node --loader ts-node/esm bundle.ts",
     "install-local": "yarn install --registry http://localhost:6001 --no-lockfile",
     "publish-local": "npm publish --registry http://localhost:6001",
-    "unpublish-local": "npm unpublish storybook-solidjs@1.0.0 --registry http://localhost:6001"
+    "unpublish-local": "npm unpublish storybook-solidjs@1.0.0-beta.2 --registry http://localhost:6001"
   },
   "devDependencies": {
     "@storybook/core-client": "next",

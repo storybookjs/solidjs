@@ -6,6 +6,7 @@ import type {
   ComponentAnnotations,
   DecoratorFunction,
   LoaderFunction,
+  ProjectAnnotations,
   StoryAnnotations,
   StoryContext as GenericStoryContext,
   StrictArgs,
@@ -155,3 +156,4 @@ export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<
   SolidRenderer,
   TArgs
 >;
+export type Preview = ProjectAnnotations<SolidRenderer>;
