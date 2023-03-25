@@ -1,6 +1,6 @@
 import { hasVitePlugins } from '@storybook/builder-vite';
 import type { PresetProperty } from '@storybook/types';
-import { solidDocgen } from './plugins/solid-docgen';
+//import { solidDocgen } from './plugins/solid-docgen';
 import type { StorybookConfig } from './types';
 
 export const core: PresetProperty<'core', StorybookConfig> = {
@@ -17,7 +17,7 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config) => {
     plugins.push(solidPlugin());
 
     // Docgen plugin is prioritized as first pluging to be loaded for having file raw code.
-    plugins.unshift(solidDocgen());
+    // plugins.unshift(solidDocgen());
   }
 
   return config;
