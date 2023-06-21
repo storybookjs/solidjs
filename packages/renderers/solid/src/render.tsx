@@ -1,6 +1,6 @@
 import type { Component } from 'solid-js';
 import { ErrorBoundary, onMount } from 'solid-js';
-import { createStore, reconcile } from 'solid-js/store';
+import { SetStoreFunction, createStore, reconcile } from 'solid-js/store';
 import { render as solidRender } from 'solid-js/web';
 import type {
   RenderContext,
@@ -14,7 +14,15 @@ import type { ComponentsData, SolidRenderer, StoryContext } from './types';
  * SolidJS store for handling fine grained updates
  * of the components data as f.e. story args.
  */
-const [store, setStore] = createStore({} as ComponentsData);
+const componentStores: {
+  [id: string]: [get: ComponentsData, set: SetStoreFunction<ComponentsData>];
+} = {};
+// const [store, setStore] = createStore({} as ComponentsData);
+let store: ComponentsData;
+let setStore: SetStoreFunction<ComponentsData>;
+
+const getStore = (componentId: string): typeof componentStores[string] => 
+  componentStores[componentId] ||= createStore({} as ComponentsData);
 
 // Delay util fn
 const delay = async (ms: number = 20) => {
@@ -67,6 +75,7 @@ export const solidReactivityDecorator = (
   storyFn: StoryFn<SolidRenderer, Args>,
   context: StoryContext<SolidRenderer>
 ) => {
+  const [store] = getStore(context.componentId);
   let storyId = context.canvasElement.id;
   context.args = store[storyId].args;
   return storyFn(context.args as Args & StoryContext<SolidRenderer>, context);
@@ -164,6 +173,7 @@ const renderSolidApp = (
 ) => {
   const { storyContext, unboundStoryFn, showMain, showException } =
     renderContext;
+  const [_, setStore] = getStore(storyContext.componentId);
 
   setStore(storyId, 'rendered', true);
 
@@ -202,9 +212,12 @@ export async function renderToCanvas(
   let storyId = storyContext.canvasElement.id;
 
   // Initializes global default values for checking remounting.
-  if (viewMode === undefined) viewMode = storyContext.viewMode;
-  if (globals === undefined) globals = storyContext.globals;
-  if (componentId === undefined) componentId = storyContext.componentId;
+  viewMode = storyContext.viewMode;
+  globals = storyContext.globals;
+  componentId = storyContext.componentId;
+
+  // init store/setStore
+  [store, setStore] = getStore(componentId);
 
   // Story is remounted given the conditions.
   if (remount(forceRemount, storyContext)) {
