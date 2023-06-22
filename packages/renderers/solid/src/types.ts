@@ -1,5 +1,6 @@
 import type { Component, JSXElement } from 'solid-js';
-import type { Args, WebRenderer } from '@storybook/types';
+import type { SetStoreFunction } from 'solid-js/store';
+import type { Args, StoryContext, WebRenderer } from '@storybook/types';
 
 export type { RenderContext } from '@storybook/types';
 export type { StoryContext } from '@storybook/types';
@@ -22,3 +23,11 @@ export type StoryFnSolidReturnType = JSXElement;
 export type ComponentsData = {
   [key: string]: { args: Args; rendered?: Boolean; disposeFn?: () => void };
 };
+
+export interface ContextStore {
+  readonly store: ComponentsData;
+  readonly setStore: SetStoreFunction<ComponentsData>;
+  remount(force: boolean, context: StoryContext<SolidRenderer>): boolean;
+  remountStory(storyId: string): void;
+  storyIsRendered(storyId: string): boolean;
+}
