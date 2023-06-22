@@ -124,7 +124,9 @@ function contextStore(context: StoryContext<SolidRenderer, Args>): ContextStore 
 }
 
 // prev story disposeFn list
-const STORY_DISPOSER: (() => void)[] = [];
+const STORY_DISPOSERS: {
+  [id: string]: (() => void) | undefined;
+} = {};
 
 // Delay util fn
 const delay = async (ms: number = 20) => {
@@ -224,10 +226,14 @@ export async function renderToCanvas(
   let forceRemount = renderContext.forceRemount;
   let storyId = storyContext.canvasElement.id;
 
-  // dispose if prev stories exists
-  while (STORY_DISPOSER.length) {
-    STORY_DISPOSER.shift()?.();
-  }
+  // dispose every story except current story
+  const contextStoryId = [storyContext.id, storyId].join('/');
+  Object.keys(STORY_DISPOSERS).forEach((key) => {
+    if (key !== contextStoryId) {
+      STORY_DISPOSERS[key]?.();
+      delete STORY_DISPOSERS[key];
+    }
+  });
 
   // Initializes
   const { setStore, remount, remountStory, storyIsRendered } = contextStore(storyContext);
@@ -248,6 +254,6 @@ export async function renderToCanvas(
 
     const disposeFn = renderSolidApp(storyId, renderContext, canvasElement, setStore);
     setStore(storyId, (prev) => ({ ...prev, disposeFn }));
-    STORY_DISPOSER.push(disposeFn);
+    STORY_DISPOSERS[contextStoryId] = disposeFn;
   }
 }
