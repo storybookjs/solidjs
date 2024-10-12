@@ -1,12 +1,10 @@
 import type { Component } from 'solid-js';
 import { ErrorBoundary, onMount } from 'solid-js';
-import { createStore, reconcile } from 'solid-js/store';
+import { createStore } from 'solid-js/store';
 import { render as solidRender } from 'solid-js/web';
-import type {
-  RenderContext,
-  Args,
-} from '@storybook/types';
+import type { RenderContext } from '@storybook/types';
 import type { ComponentsData, SolidRenderer, StoryContext } from './types';
+import { Decorator } from './public-types';
 
 /**
  * SolidJS store for handling fine grained updates
@@ -14,78 +12,18 @@ import type { ComponentsData, SolidRenderer, StoryContext } from './types';
  */
 const [store, setStore] = createStore({} as ComponentsData);
 
-// Delay util fn
-const delay = async (ms: number = 20) => {
-  await new Promise((resolve) => setTimeout(resolve, ms));
-};
-
-// Global variables
-let globals: StoryContext<SolidRenderer>['globals']; //Storybook view configurations.
-let componentId: string; //Unique component story id.
-let viewMode: string; //It can be story or docs.
-
-/**
- * Checks when the story requires to be remounted.
- * Elements outside the story requires a whole re-render.
- * e.g. dark theme, show grid, etc...
- */
-const remount = (force: boolean, context: StoryContext<SolidRenderer>) => {
-  let flag = false;
-
-  // Story view mode has changed
-  if (viewMode !== context.viewMode) flag = true;
-
-  // Force flag is set to true.
-  if (force) flag = true;
-
-  // Globals refers to storybook visualization options.
-  if (!Object.is(globals, context.globals)) flag = true;
-
-  // Story main url id has changed
-  if (componentId !== context.componentId) {
-    flag = true;
-    unmountAll();
-  }
-
-  // Global values are updated when remount is true
-  if (flag === true) {
-    viewMode = context.viewMode;
-    globals = context.globals;
-    componentId = context.componentId;
-  }
-
-  return flag;
-};
-
-/**
- * All stories are disposed.
- */
-const disposeAllStories = () => {
-  Object.keys(store).forEach((storyId) => {
-    store[storyId]?.disposeFn?.();
-  });
-};
-
-/**
- * Resets reactive store
- */
-const cleanStore = () => {
-  setStore(reconcile({}));
-};
-
-/**
- * Unmounts all the store and rendered solid apps
- */
-const unmountAll = () => {
-  disposeAllStories();
-  cleanStore();
-};
+export const solidReactivityDecorator: Decorator =
+  (Story, context) => {
+    let storyId = context.canvasElement.id;
+    context.args = store[storyId].args;
+    return <Story {...context.args} />;
+  };
 
 /**
  * Resets an specific story store.
  */
 const cleanStoryStore = (storeId: string) => {
-  setStore({ [storeId]: { args: {}, rendered: false, disposeFn: () => {} } });
+  setStore({ [storeId]: { args: {}, rendered: false, disposeFn: () => { } } });
 };
 
 /**
@@ -107,12 +45,6 @@ const remountStory = (storyId: string) => {
  * Checks if the story store exists
  */
 const storyIsRendered = (storyId: string) => Boolean(store[storyId]?.rendered);
-
-/**
- * Checks if the story is in docs mode.
- */
-const isDocsMode = (context: StoryContext<SolidRenderer, Args>) =>
-  context.viewMode === 'docs';
 
 /**
  * Renders solid App into DOM.
@@ -150,8 +82,14 @@ const renderSolidApp = (
 };
 
 /**
- * Main renderer function for initializing the SolidJS app
- * with the story content.
+ * Main renderer function for initializing the SolidJS app with the story content.
+ * 
+ * How this works is a bit different from the React renderer.
+ * In React, components run again on rerender so the React renderer just recalls the component,
+ * but Solid has fine-grained reactivity so components run once,
+ * and when dependencies are updated, effects/tracking scopes run again.
+ * 
+ * So, we can store args in a store and just update the store when this function is called.
  */
 export async function renderToCanvas(
   renderContext: RenderContext<SolidRenderer>,
@@ -161,13 +99,8 @@ export async function renderToCanvas(
   let forceRemount = renderContext.forceRemount;
   let storyId = storyContext.canvasElement.id;
 
-  // Initializes global default values for checking remounting.
-  if (viewMode === undefined) viewMode = storyContext.viewMode;
-  if (globals === undefined) globals = storyContext.globals;
-  if (componentId === undefined) componentId = storyContext.componentId;
-
   // Story is remounted given the conditions.
-  if (remount(forceRemount, storyContext)) {
+  if (forceRemount) {
     remountStory(storyId);
   }
 
@@ -176,10 +109,6 @@ export async function renderToCanvas(
 
   // Story is rendered and store data is created
   if (storyIsRendered(storyId) === false) {
-    // Delays the first render for waiting dom nodes
-    // for rendering all the stories in docs mode when global changes.
-    if (isDocsMode(storyContext)) await delay();
-
     const disposeFn = renderSolidApp(storyId, renderContext, canvasElement);
     setStore(storyId, (prev) => ({ ...prev, disposeFn }));
   }

@@ -1,11 +1,10 @@
 import { Decorator } from "./public-types";
+import { solidReactivityDecorator } from "./renderToCanvas";
 
 export const parameters = { renderer: 'solid' };
 export { render } from "./render";
 export { renderToCanvas } from "./renderToCanvas";
 
 export const decorators: Decorator[] = [
-    (Story, context) => {
-        return <Story {...context.args} />;
-    }
+  solidReactivityDecorator,
 ];
