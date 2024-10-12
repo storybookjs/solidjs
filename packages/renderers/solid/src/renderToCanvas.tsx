@@ -12,6 +12,9 @@ import { Decorator } from './public-types';
  */
 const [store, setStore] = createStore({} as ComponentsData);
 
+/**
+ * A decorator that ensures changing args updates the story.
+ */
 export const solidReactivityDecorator: Decorator =
   (Story, context) => {
     let storyId = context.canvasElement.id;

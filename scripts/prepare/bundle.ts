@@ -76,8 +76,6 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     await fs.emptyDir(metafilesDir);
   }
 
-  const tasks: Promise<any>[] = [];
-
   const externals = [
     name,
     ...extraExternals,
@@ -107,75 +105,69 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     return { js: ".js" };
   }
 
-  tasks.push(
-    build({
+  await build({
+    noExternal,
+    silent: true,
+    treeshake: true,
+    entry: nonPresetEntries,
+    shims: false,
+    watch,
+    outDir: OUT_DIR,
+    sourcemap: false,
+    metafile: true,
+    format: formats,
+    target: platform === 'node' ? ['node18'] : ['chrome100', 'safari15', 'firefox91'],
+    clean: false,
+    ...(dtsBuild === 'esm' ? dtsConfig : {}),
+    platform: platform || 'browser',
+    esbuildPlugins:
+      platform === 'node'
+        ? [solidPlugin()]
+        : [
+            solidPlugin(),
+            aliasPlugin({
+              process: resolve('../node_modules/process/browser.js'),
+              util: resolve('../node_modules/util/util.js'),
+            }),
+          ],
+    external: externals,
+    outExtension,
+
+    esbuildOptions: (c) => {
+      c.conditions = ['module'];
+      c.platform = platform || 'browser';
+      Object.assign(c, getESBuildOptions(optimized));
+    },
+  })
+
+  if (formats.includes('cjs') && presetEntries.length > 0) {
+    await build({
       noExternal,
       silent: true,
-      treeshake: true,
-      entry: nonPresetEntries,
-      shims: false,
+      entry: presetEntries,
       watch,
       outDir: OUT_DIR,
       sourcemap: false,
       metafile: true,
-      format: formats,
-      target: platform === 'node' ? ['node18'] : ['chrome100', 'safari15', 'firefox91'],
+      format: ['cjs'],
+      target: 'node18',
+      ...(dtsBuild === 'cjs' ? dtsConfig : {}),
+      platform: 'node',
       clean: false,
-      ...(dtsBuild === 'esm' ? dtsConfig : {}),
-      platform: platform || 'browser',
-      esbuildPlugins:
-        platform === 'node'
-          ? [solidPlugin()]
-          : [
-              solidPlugin(),
-              aliasPlugin({
-                process: resolve('../node_modules/process/browser.js'),
-                util: resolve('../node_modules/util/util.js'),
-              }),
-            ],
+      esbuildPlugins: [solidPlugin()],
       external: externals,
       outExtension,
 
       esbuildOptions: (c) => {
-        c.conditions = ['module'];
-        c.platform = platform || 'browser';
+        c.platform = 'node';
         Object.assign(c, getESBuildOptions(optimized));
       },
-    })
-  );
-
-  if (formats.includes('cjs') && presetEntries.length > 0) {
-    tasks.push(
-      build({
-        noExternal,
-        silent: true,
-        entry: presetEntries,
-        watch,
-        outDir: OUT_DIR,
-        sourcemap: false,
-        metafile: true,
-        format: ['cjs'],
-        target: 'node18',
-        ...(dtsBuild === 'cjs' ? dtsConfig : {}),
-        platform: 'node',
-        clean: false,
-        esbuildPlugins: [solidPlugin()],
-        external: externals,
-        outExtension,
-
-        esbuildOptions: (c) => {
-          c.platform = 'node';
-          Object.assign(c, getESBuildOptions(optimized));
-        },
-      })
-    );
+    });
   }
 
   if (tsConfigExists && !optimized) {
-    tasks.push(...entries.map(generateDTSMapperFile));
+    await Promise.all(entries.map(generateDTSMapperFile));
   }
-
-  await Promise.all(tasks);
 
   if (!watch) {
     await saveMetafiles({ metafilesDir, formats });
