@@ -1,4 +1,4 @@
 import './globals';
 
-export * from './public-api';
+export * from './portable-stories';
 export * from './public-types';

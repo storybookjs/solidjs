@@ -1,5 +1,16 @@
+# npm
 node_modules
-yarn-error.log
-.yarnrc.yml
+*.DS_Store
+
+# yarn (no zero-install)
+/**/.pnp.*
+/**/.yarn/*
+!/**/.yarn/patches
+!/**/.yarn/plugins
+!/**/.yarn/releases
+!/**/.yarn/sdks
+!/**/.yarn/versions
+
+# build
 dist
-.DS_Store
+bench
