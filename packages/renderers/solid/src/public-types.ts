@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type {
   AnnotatedStoryFn,
   Args,
@@ -11,7 +12,7 @@ import type {
   StoryContext as GenericStoryContext,
   StrictArgs,
 } from '@storybook/types';
-import type { ComponentProps, Component as ComponentType, JSX } from 'solid-js';
+import type { ComponentProps, Component as ComponentType } from 'solid-js';
 import type { SetOptional, Simplify } from 'type-fest';
 import type { SolidRenderer } from './types';
 
@@ -23,18 +24,20 @@ export type { SolidRenderer };
  *
  * @see [Default export](https://storybook.js.org/docs/formats/component-story-format/#default-export)
  */
-export type Meta<TCmpOrArgs = Args> = TCmpOrArgs extends ComponentType<any>
-  ? ComponentAnnotations<SolidRenderer, ComponentProps<TCmpOrArgs>>
-  : ComponentAnnotations<SolidRenderer, TCmpOrArgs>;
+export type Meta<TCmpOrArgs = Args> =
+  TCmpOrArgs extends ComponentType<any>
+    ? ComponentAnnotations<SolidRenderer, ComponentProps<TCmpOrArgs>>
+    : ComponentAnnotations<SolidRenderer, TCmpOrArgs>;
 
 /**
  * Story function that represents a CSFv2 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryFn<TCmpOrArgs = Args> = TCmpOrArgs extends ComponentType<any>
-  ? AnnotatedStoryFn<SolidRenderer, ComponentProps<TCmpOrArgs>>
-  : AnnotatedStoryFn<SolidRenderer, TCmpOrArgs>;
+export type StoryFn<TCmpOrArgs = Args> =
+  TCmpOrArgs extends ComponentType<any>
+    ? AnnotatedStoryFn<SolidRenderer, ComponentProps<TCmpOrArgs>>
+    : AnnotatedStoryFn<SolidRenderer, TCmpOrArgs>;
 
 /**
  * Story function that represents a CSFv3 component example.
@@ -62,8 +65,8 @@ export type StoryObj<TMetaOrCmpOrArgs = Args> = TMetaOrCmpOrArgs extends {
       >
     : never
   : TMetaOrCmpOrArgs extends ComponentType<any>
-  ? StoryAnnotations<SolidRenderer, ComponentProps<TMetaOrCmpOrArgs>>
-  : StoryAnnotations<SolidRenderer, TMetaOrCmpOrArgs>;
+    ? StoryAnnotations<SolidRenderer, ComponentProps<TMetaOrCmpOrArgs>>
+    : StoryAnnotations<SolidRenderer, TMetaOrCmpOrArgs>;
 
 type ActionArgs<TArgs> = {
   // This can be read as: filter TArgs on functions where we can assign a void function to that function.

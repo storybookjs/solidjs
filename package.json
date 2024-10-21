@@ -9,14 +9,20 @@
     ]
   },
   "devDependencies": {
+    "@eslint/js": "^9.13.0",
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^18.0.0",
     "esbuild-plugin-alias": "^0.2.1",
     "esbuild-plugin-solid": "^0.6.0",
+    "eslint": "^9.13.0",
+    "eslint-plugin-depend": "^0.11.0",
     "execa": "^9.4.0",
+    "fdir": "^6.4.2",
     "fs-extra": "^11.2.0",
+    "globals": "^15.11.0",
     "jiti": "^2.3.3",
+    "picomatch": "^4.0.2",
     "prettier": "^3.3.3",
     "pretty-hrtime": "^1.0.3",
     "rollup": "^4.24.0",
@@ -25,7 +31,16 @@
     "sort-package-json": "^2.10.1",
     "ts-node": "^10.9.2",
     "tsup": "^8.3.0",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.10.0"
+  },
+  "scripts": {
+    "check": "yarn run check:lint && yarn run check:format",
+    "check:format": "prettier --check .",
+    "check:lint": "eslint .",
+    "fix": "yarn run fix:lint && yarn run fix:format",
+    "fix:format": "prettier --write .",
+    "fix:lint": "eslint . --fix"
   },
   "packageManager": "yarn@4.5.0"
 }

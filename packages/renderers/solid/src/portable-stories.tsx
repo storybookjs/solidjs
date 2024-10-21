@@ -1,11 +1,13 @@
-import * as Solid from "solid-js";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   setProjectAnnotations as originalSetProjectAnnotations,
-  setDefaultProjectAnnotations
-} from "@storybook/preview-api";
-import type { NamedOrDefaultProjectAnnotations, NormalizedProjectAnnotations } from "@storybook/types";
-import type { SolidRenderer } from "./types";
+  setDefaultProjectAnnotations,
+} from '@storybook/preview-api';
+import type {
+  NamedOrDefaultProjectAnnotations,
+  NormalizedProjectAnnotations,
+} from '@storybook/types';
+import type { SolidRenderer } from './types';
 
 import * as INTERNAL_DEFAULT_PROJECT_ANNOTATIONS from './entry-preview';
 
@@ -31,10 +33,10 @@ import * as INTERNAL_DEFAULT_PROJECT_ANNOTATIONS from './entry-preview';
 export function setProjectAnnotations(
   projectAnnotations:
     | NamedOrDefaultProjectAnnotations<any>
-    | NamedOrDefaultProjectAnnotations<any>[]
+    | NamedOrDefaultProjectAnnotations<any>[],
 ): NormalizedProjectAnnotations<SolidRenderer> {
   setDefaultProjectAnnotations(INTERNAL_DEFAULT_PROJECT_ANNOTATIONS);
   return originalSetProjectAnnotations(
-    projectAnnotations
+    projectAnnotations,
   ) as NormalizedProjectAnnotations<SolidRenderer>;
 }

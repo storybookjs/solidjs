@@ -16,5 +16,5 @@ export interface ShowErrorArgs {
 
 export type StoryFnSolidReturnType = JSXElement;
 export type ComponentsData = {
-  [key: string]: { args: Args; rendered?: Boolean; disposeFn?: () => void };
+  [key: string]: { args: Args; rendered?: boolean; disposeFn?: () => void };
 };

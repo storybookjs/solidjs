@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from 'storybook-solidjs';
-import { within, userEvent } from '@storybook/testing-library';
+import { within, userEvent } from '@storybook/test';
 
 import { Page } from './Page';
 
@@ -19,7 +19,7 @@ export const LoggedOut: Story = {};
 
 // More on interaction testing: https://storybook.js.org/docs/7.0/solid/writing-tests/interaction-testing
 export const LoggedIn: Story = {
-  play: async ({ canvasElement }: any) => {
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
     const canvas = within(canvasElement);
     const loginButton = canvas.getByRole('button', {
       name: /Log in/i,

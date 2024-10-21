@@ -1,5 +1,5 @@
-import { ArgsStoryFn } from "@storybook/types";
-import { SolidRenderer } from "./types";
+import { ArgsStoryFn } from '@storybook/types';
+import { SolidRenderer } from './types';
 
 /**
  * Default render function for a story definition (inside a csf file) without
@@ -18,7 +18,7 @@ export const render: ArgsStoryFn<SolidRenderer> = (_, context) => {
 
   if (!Component) {
     throw new Error(
-      `Unable to render story ${id} as the component annotation is missing from the default export`
+      `Unable to render story ${id} as the component annotation is missing from the default export`,
     );
   }
 

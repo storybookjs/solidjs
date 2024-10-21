@@ -10,11 +10,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "module": "ES2022",
     "moduleResolution": "Bundler",
     "noImplicitAny": true,
@@ -25,10 +21,5 @@
     "strictBindCallApply": true,
     "target": "ES2022"
   },
-  "exclude": [
-    "dist",
-    "**/dist",
-    "node_modules",
-    "**/node_modules"
-  ]
+  "exclude": ["dist", "**/dist", "node_modules", "**/node_modules"]
 }

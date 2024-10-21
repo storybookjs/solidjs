@@ -15,7 +15,7 @@ type StepOptions = {
 export const exec = async (
   command: string | string[],
   options: Options = {},
-  { startMessage, errorMessage, dryRun, debug, cancelSignal }: StepOptions = {}
+  { startMessage, errorMessage, dryRun, debug, cancelSignal }: StepOptions = {},
 ): Promise<void> => {
   logger.info();
 
@@ -50,7 +50,9 @@ export const exec = async (
     }
   } catch (err) {
     if (!(typeof err === 'object' && 'killed' in err! && err.killed)) {
-      logger.error(picocolors.red(`An error occurred while executing: \`${command}\``));
+      logger.error(
+        picocolors.red(`An error occurred while executing: \`${command}\``),
+      );
       logger.log(`${errorMessage}\n`);
     }
 
