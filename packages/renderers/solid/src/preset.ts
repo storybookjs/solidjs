@@ -1,7 +1,20 @@
+/**
+ * A preset is a configuration that enables developers to quickly set up and
+ * customize their environment with a specific set of features, functionalities, or integrations.
+ *
+ * @see https://storybook.js.org/docs/addons/writing-presets
+ * @see https://storybook.js.org/docs/api/main-config/main-config
+ */
+
 import { join } from 'node:path';
 
 import type { PresetProperty } from '@storybook/types';
 
+/**
+ * Add additional scripts to run in the story preview.
+ *
+ * @see https://storybook.js.org/docs/api/main-config/main-config-preview-annotations
+ */
 export const previewAnnotations: PresetProperty<'previewAnnotations'> = async (
   input = [],
   options,

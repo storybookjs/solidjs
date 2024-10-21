@@ -1,3 +1,5 @@
+/* Configuration for default renderer. */
+
 import { Decorator } from './public-types';
 import { solidReactivityDecorator } from './renderToCanvas';
 

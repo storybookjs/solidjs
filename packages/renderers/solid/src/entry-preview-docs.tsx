@@ -1,3 +1,5 @@
+/* Configuration for doc-mode renderer (`storybook dev --docs`). */
+
 import {
   enhanceArgTypes,
   extractComponentDescription,
