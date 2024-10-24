@@ -26,7 +26,7 @@ export const solidReactivityDecorator: Decorator = (Story, context) => {
  * Resets an specific story store.
  */
 const cleanStoryStore = (storeId: string) => {
-  setStore({ [storeId]: { args: {}, rendered: false, disposeFn: () => { } } });
+  setStore({ [storeId]: { args: {}, rendered: false, disposeFn: () => {} } });
 };
 
 /**
@@ -57,8 +57,7 @@ const renderSolidApp = (
   renderContext: RenderContext<SolidRenderer>,
   canvasElement: SolidRenderer['canvasElement'],
 ) => {
-  const { storyContext, storyFn, showMain, showException } =
-    renderContext;
+  const { storyContext, storyFn, showMain, showException } = renderContext;
 
   setStore(storyId, 'rendered', true);
 

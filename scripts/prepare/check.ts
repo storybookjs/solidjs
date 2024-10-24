@@ -37,10 +37,16 @@ run({ cwd: process.cwd() }).catch((err: unknown) => {
   process.exit(1);
 });
 
-function getTSDiagnostics(program: ts.Program, cwd: string, host: ts.CompilerHost) {
+function getTSDiagnostics(
+  program: ts.Program,
+  cwd: string,
+  host: ts.CompilerHost,
+) {
   return ts.formatDiagnosticsWithColorAndContext(
-    ts.getPreEmitDiagnostics(program).filter((d) => d.file?.fileName.startsWith(cwd)),
-    host
+    ts
+      .getPreEmitDiagnostics(program)
+      .filter((d) => d.file?.fileName.startsWith(cwd)),
+    host,
   );
 }
 
@@ -75,6 +81,6 @@ function getTSFilesAndConfig(tsconfigPath: string) {
       outDir: join(process.cwd(), 'types'),
       target: ts.ScriptTarget.ES2022,
       declaration: false,
-    }
+    },
   );
 }
