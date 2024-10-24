@@ -42,7 +42,8 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prep": "npx jiti ../../../scripts/prepare/bundle.ts"
+    "prep": "npx jiti ../../../scripts/prepare/bundle.ts",
+    "check": "npx jiti ../../../scripts/prepare/check.ts"
   },
   "devDependencies": {
     "@storybook/docs-tools": "^8.3.5",
