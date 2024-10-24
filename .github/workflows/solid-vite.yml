@@ -14,19 +14,28 @@ jobs:
     runs-on: ubuntu-latest
     name: Lib workflow
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Node
-        uses: ./.github/workflows/actions/setup-node
-      - name: Install dependencies
-        run: yarn
-        shell: bash
-      - name: 'Build'
-        run: yarn build
-        shell: bash
-      - name: 'Publish to npm'
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v4
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install project dependencies
+        run: yarn --prefer-offline
+      - name: Check bundling
+        run: yarn check
+        working-directory: packages/frameworks/solid-vite
+      - name: Publish to NPM
         if: github.event_name == 'release'
-        run: npm publish
-        shell: bash
+        run: yarn npm publish
+        working-directory: packages/frameworks/solid-vite
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
