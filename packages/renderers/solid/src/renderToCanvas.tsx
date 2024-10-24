@@ -2,6 +2,7 @@ import type { Component } from 'solid-js';
 import { ErrorBoundary, onMount } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { render as solidRender } from 'solid-js/web';
+import { Semaphore } from 'async-mutex';
 import type { RenderContext } from '@storybook/types';
 import type { ComponentsData, SolidRenderer, StoryContext } from './types';
 import { Decorator } from './public-types';
@@ -25,7 +26,7 @@ export const solidReactivityDecorator: Decorator = (Story, context) => {
  * Resets an specific story store.
  */
 const cleanStoryStore = (storeId: string) => {
-  setStore({ [storeId]: { args: {}, rendered: false, disposeFn: () => {} } });
+  setStore({ [storeId]: { args: {}, rendered: false, disposeFn: () => { } } });
 };
 
 /**
@@ -56,13 +57,13 @@ const renderSolidApp = (
   renderContext: RenderContext<SolidRenderer>,
   canvasElement: SolidRenderer['canvasElement'],
 ) => {
-  const { storyContext, unboundStoryFn, showMain, showException } =
+  const { storyContext, storyFn, showMain, showException } =
     renderContext;
 
   setStore(storyId, 'rendered', true);
 
   const App: Component = () => {
-    const Story = unboundStoryFn as Component<StoryContext<SolidRenderer>>;
+    const Story = storyFn as Component<StoryContext<SolidRenderer>>;
 
     onMount(() => {
       showMain();
@@ -83,6 +84,8 @@ const renderSolidApp = (
   return solidRender(() => <App />, canvasElement as HTMLElement);
 };
 
+const semaphore = new Semaphore(1);
+
 /**
  * Main renderer function for initializing the SolidJS app with the story content.
  *
@@ -97,8 +100,7 @@ export async function renderToCanvas(
   renderContext: RenderContext<SolidRenderer>,
   canvasElement: SolidRenderer['canvasElement'],
 ) {
-  const { storyContext } = renderContext;
-  const forceRemount = renderContext.forceRemount;
+  const { storyContext, forceRemount } = renderContext;
   const storyId = storyContext.canvasElement.id;
 
   // Story is remounted given the conditions.
@@ -111,7 +113,9 @@ export async function renderToCanvas(
 
   // Story is rendered and store data is created
   if (storyIsRendered(storyId) === false) {
-    const disposeFn = renderSolidApp(storyId, renderContext, canvasElement);
-    setStore(storyId, (prev) => ({ ...prev, disposeFn }));
+    await semaphore.runExclusive(async () => {
+      const disposeFn = renderSolidApp(storyId, renderContext, canvasElement);
+      setStore(storyId, (prev) => ({ ...prev, disposeFn }));
+    });
   }
 }
