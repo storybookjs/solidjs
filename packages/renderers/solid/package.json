@@ -47,11 +47,11 @@
     "check": "npx jiti ../../../scripts/prepare/check.ts"
   },
   "devDependencies": {
-    "@storybook/docs-tools": "^8.3.5",
+    "@storybook/docs-tools": "next",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "^8.3.5",
-    "@storybook/test": "^8.3.5",
-    "@storybook/types": "^8.3.5",
+    "@storybook/preview-api": "next",
+    "@storybook/test": "next",
+    "@storybook/types": "next",
     "async-mutex": "^0.5.0",
     "esbuild": "^0.24.0",
     "esbuild-plugin-solid": "^0.6.0",
