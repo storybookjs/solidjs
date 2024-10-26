@@ -28,6 +28,8 @@ jobs:
           node-version: '20'
       - name: Enable Corepack
         run: corepack enable && corepack install
+      - name: Print versions
+        run: node --version && yarn --version
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT

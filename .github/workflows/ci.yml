@@ -15,6 +15,8 @@ jobs:
           node-version: '20'
       - name: Enable Corepack
         run: corepack enable && corepack install
+      - name: Print versions
+        run: node --version && yarn --version
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
@@ -26,7 +28,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install project dependencies
-        run: yarn --prefer-offline
+        run: yarn install
       - name: Run formatter
         run: yarn check:format
   lint:
@@ -38,6 +40,8 @@ jobs:
           node-version: '20'
       - name: Enable Corepack
         run: corepack enable && corepack install
+      - name: Print versions
+        run: node --version && yarn --version
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
