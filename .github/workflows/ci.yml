@@ -49,6 +49,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install project dependencies
-        run: yarn --prefer-offline
+        run: yarn install
       - name: Run linter
         run: yarn check:lint
