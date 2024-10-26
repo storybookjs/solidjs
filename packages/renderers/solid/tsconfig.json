@@ -1,4 +1,10 @@
 {
   "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "storybook-solidjs": ["./src"]
+    }
+  },
   "include": ["src/**/*", "template/**/*"]
 }
