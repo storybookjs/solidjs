@@ -45,8 +45,8 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepack": "yarn prep",
-    "prep": "npx jiti ../../../scripts/prepare/bundle.ts",
+    "prepack": "yarn build",
+    "build": "npx jiti ../../../scripts/prepare/build.ts",
     "check": "npx jiti ../../../scripts/prepare/check.ts"
   },
   "dependencies": {

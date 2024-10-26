@@ -35,6 +35,7 @@
     "typescript-eslint": "^8.10.0"
   },
   "scripts": {
+    "build": "yarn workspaces foreach --all -pt run build",
     "check": "yarn run check:lint && yarn run check:format",
     "check:format": "prettier --check .",
     "check:lint": "eslint .",
