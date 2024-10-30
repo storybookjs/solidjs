@@ -20,7 +20,7 @@ export default {
   args: { onClick: fn() },
 };
 
-// More on writing stories with args: https://storybook.js.org/docs/7.0/solid/writing-stories/args
+// More on writing stories with args: https://storybook.js.org/docs/solid/writing-stories/args
 export const Primary = {
   args: {
     primary: true,

@@ -1,0 +1,34 @@
+{
+  "name": "vite-template-solid",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@chromatic-com/storybook": "^1.9.0",
+    "@storybook/addon-essentials": "next",
+    "@storybook/addon-interactions": "next",
+    "@storybook/addon-links": "next",
+    "@storybook/test": "next",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "solid-devtools": "^0.29.2",
+    "storybook": "next",
+    "storybook-solidjs": "workspace:*",
+    "storybook-solidjs-vite": "workspace:*",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.8",
+    "vite-plugin-solid": "^2.8.2"
+  },
+  "dependencies": {
+    "solid-js": "^1.9.2"
+  }
+}

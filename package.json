@@ -4,6 +4,7 @@
   "type": "module",
   "workspaces": {
     "packages": [
+      "example",
       "packages/frameworks/*",
       "packages/renderers/*"
     ]

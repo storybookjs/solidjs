@@ -7,7 +7,7 @@ const meta = {
   title: 'Example/Page',
   component: Page,
   parameters: {
-    // More on how to position stories at: https://storybook.js.org/docs/7.0/solid/configure/story-layout
+    // More on how to position stories at: https://storybook.js.org/docs/solid/configure/story-layout
     layout: 'fullscreen',
   },
 } satisfies Meta<typeof Page>;
@@ -17,7 +17,7 @@ type Story = StoryObj<typeof meta>;
 
 export const LoggedOut: Story = {};
 
-// More on interaction testing: https://storybook.js.org/docs/7.0/solid/writing-tests/interaction-testing
+// More on interaction testing: https://storybook.js.org/docs/solid/writing-tests/interaction-testing
 export const LoggedIn: Story = {
   play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
     const canvas = within(canvasElement);

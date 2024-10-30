@@ -55,6 +55,7 @@
     "vite-plugin-solid": "^2.10.2"
   },
   "devDependencies": {
+    "@storybook/types": "next",
     "solid-js": "^1.9.2",
     "storybook": "next",
     "storybook-solidjs": "workspace:*",
