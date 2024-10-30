@@ -5,7 +5,7 @@ const meta: Meta<typeof Logos> = {
   component: Logos,
   parameters: {
     layout: 'centered',
-    backgrounds: { default: 'dark' }
+    backgrounds: { default: 'dark' },
   },
 };
 export default meta;

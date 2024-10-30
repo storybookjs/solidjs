@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from 'storybook-solidjs';
-import {SolidLogo} from '.';
+import { SolidLogo } from '.';
 
 const meta: Meta<typeof SolidLogo> = {
   component: SolidLogo,
   parameters: {
     layout: 'centered',
-    backgrounds: { default: 'dark' }
+    backgrounds: { default: 'dark' },
   },
 };
 export default meta;

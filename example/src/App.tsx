@@ -9,7 +9,9 @@ const App: Component = () => {
     <div class={styles.App}>
       <header class={styles.header}>
         <Logos />
-        <p>You're using <code>storybook-solidjs</code>!</p>
+        <p>
+          You're using <code>storybook-solidjs</code>!
+        </p>
         <Link
           href="https://github.com/solidjs/solid"
           target="_blank"
