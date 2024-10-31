@@ -32,8 +32,7 @@ If you don't have an alternative Linux or MacOS development environment, I would
 ## Testing
 
 The example application can be used to test the framework.
-
-There is `yarn storybook` for testing Storybook and `yarn dev` for testing the app.
+It has `yarn storybook` for testing Storybook and `yarn dev` for testing the app.
 
 For testing with external projects that use Yarn, the framework and renderer can be linked locally.
 
@@ -45,12 +44,12 @@ This can be fixed by specifying the node linker to be "node-modules".
 
 1. Create a SolidJS application using a template: `yarn dlx degit solidjs/templates/ts my-solid-app` and `cd my-solid-app` and `rm pnpm-lock.yaml`.
 2. Initialize a linkable Storybook project: `yarn dlx storybook@latest init --linkable`
-3. Create a `.yarnrc.yml` file with the contents to avoid Yarn PnP:
+3. Create a `.yarnrc.yml` file with the following contents to avoid Yarn PnP:
 
 ```yml
 nodeLinker: node-modules
 ```
 
-4. Link to the framework and renderer with `yarn link <path>` (call twice with absolute path to framework "packages/frameworks/solid-vite" and renderer "packages/renderers/solid")
+4. Link to the framework and renderer with `yarn link <path>` (call twice with the absolute path to the framework "packages/frameworks/solid-vite" and renderer "packages/renderers/solid")
 5. Install dependencies with `yarn`
 6. Run Storybook with `yarn storybook`
