@@ -5638,6 +5638,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"storybook-solid-example@workspace:example":
+  version: 0.0.0-use.local
+  resolution: "storybook-solid-example@workspace:example"
+  dependencies:
+    "@chromatic-com/storybook": "npm:^1.9.0"
+    "@storybook/addon-essentials": "npm:next"
+    "@storybook/addon-interactions": "npm:next"
+    "@storybook/addon-links": "npm:next"
+    "@storybook/test": "npm:next"
+    autoprefixer: "npm:^10.4.20"
+    postcss: "npm:^8.4.47"
+    solid-devtools: "npm:^0.29.2"
+    solid-js: "npm:^1.9.2"
+    storybook: "npm:next"
+    storybook-solidjs: "workspace:*"
+    storybook-solidjs-vite: "workspace:*"
+    tailwindcss: "npm:^3.4.14"
+    typescript: "npm:^5.6.3"
+    vite: "npm:^5.4.8"
+    vite-plugin-solid: "npm:^2.8.2"
+  languageName: unknown
+  linkType: soft
+
 "storybook-solidjs-vite@workspace:*, storybook-solidjs-vite@workspace:packages/frameworks/solid-vite":
   version: 0.0.0-use.local
   resolution: "storybook-solidjs-vite@workspace:packages/frameworks/solid-vite"
@@ -6245,29 +6268,6 @@ __metadata:
   checksum: 10/f7c3d857c70471e347044712af91651776408933e5cdf79ad1d2770c1853b3ee55d9b8c4f5a44a2a5cebcf32c39bee7de9bed4aa8b72094d623f8a7b565e0d76
   languageName: node
   linkType: hard
-
-"vite-template-solid@workspace:example":
-  version: 0.0.0-use.local
-  resolution: "vite-template-solid@workspace:example"
-  dependencies:
-    "@chromatic-com/storybook": "npm:^1.9.0"
-    "@storybook/addon-essentials": "npm:next"
-    "@storybook/addon-interactions": "npm:next"
-    "@storybook/addon-links": "npm:next"
-    "@storybook/test": "npm:next"
-    autoprefixer: "npm:^10.4.20"
-    postcss: "npm:^8.4.47"
-    solid-devtools: "npm:^0.29.2"
-    solid-js: "npm:^1.9.2"
-    storybook: "npm:next"
-    storybook-solidjs: "workspace:*"
-    storybook-solidjs-vite: "workspace:*"
-    tailwindcss: "npm:^3.4.14"
-    typescript: "npm:^5.6.3"
-    vite: "npm:^5.4.8"
-    vite-plugin-solid: "npm:^2.8.2"
-  languageName: unknown
-  linkType: soft
 
 "vite@npm:^5.4.8":
   version: 5.4.8
