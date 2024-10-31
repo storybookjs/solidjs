@@ -1,3 +1,5 @@
+import { dirname, join } from 'node:path';
+
 /**
  * A preset is a configuration that enables developers to quickly set up and
  * customize their environment with a specific set of features, functionalities, or integrations.
@@ -11,14 +13,18 @@ import type { PresetProperty } from '@storybook/types';
 //import { solidDocgen } from './plugins/solid-docgen';
 import type { StorybookConfig } from './types';
 
+// Helper for getting the location of dependencies.
+const getAbsolutePath = <I extends string>(input: I): I =>
+  dirname(require.resolve(join(input, 'package.json'))) as I;
+
 /**
  * Configures Storybook's internal features.
  *
  * @see https://storybook.js.org/docs/api/main-config/main-config-core
  */
 export const core: PresetProperty<'core', StorybookConfig> = {
-  builder: '@storybook/builder-vite',
-  renderer: 'storybook-solidjs',
+  builder: getAbsolutePath('@storybook/builder-vite'),
+  renderer: getAbsolutePath('storybook-solidjs'),
 };
 
 /**

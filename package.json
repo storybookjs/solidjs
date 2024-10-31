@@ -37,10 +37,10 @@
   },
   "scripts": {
     "build": "yarn workspaces foreach --all -pt run build",
-    "check": "yarn run check:lint && yarn run check:format",
+    "check:all": "yarn run check:lint && yarn run check:format",
     "check:format": "prettier --check .",
     "check:lint": "eslint .",
-    "fix": "yarn run fix:lint && yarn run fix:format",
+    "fix:all": "yarn run fix:lint && yarn run fix:format",
     "fix:format": "prettier --write .",
     "fix:lint": "eslint . --fix"
   },
