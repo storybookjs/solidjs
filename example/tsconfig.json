@@ -1,0 +1,11 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "storybook-solidjs": ["../packages/renderers/solid"],
+      "storybook-solidjs-vite": ["../packages/frameworks/solid-vite"]
+    },
+    "types": ["vite/client"]
+  }
+}

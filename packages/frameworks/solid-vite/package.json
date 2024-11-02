@@ -1,7 +1,7 @@
 {
   "name": "storybook-solidjs-vite",
   "type": "module",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "Storybook for SolidJS and Vite: Develop SolidJS in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -22,15 +22,15 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
+      "types": "./dist/preset.d.ts",
       "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
+      "import": "./dist/preset.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -45,33 +45,24 @@
     "*.d.ts"
   ],
   "scripts": {
-    "build": "node --loader ts-node/esm bundle.ts",
-    "install-local": "yarn install --registry http://localhost:6001 --no-lockfile",
-    "publish-local": "npm publish --registry http://localhost:6001",
-    "unpublish-local": "npm unpublish storybook-solidjs-vite@1.0.0-beta.2 --registry http://localhost:6001"
+    "prepack": "yarn build",
+    "build": "npx jiti ../../../scripts/prepare/build.ts",
+    "check": "npx jiti ../../../scripts/prepare/check.ts"
   },
   "dependencies": {
-    "@storybook/builder-vite": "next"
+    "@storybook/builder-vite": "next",
+    "magic-string": "^0.30.11",
+    "vite-plugin-solid": "^2.10.2"
   },
   "devDependencies": {
-    "@storybook/addons": "next",
-    "@storybook/channel-postmessage": "next",
-    "@storybook/channel-websocket": "next",
-    "@storybook/client-api": "next",
-    "@storybook/core-server": "next",
-    "@storybook/node-logger": "next",
-    "@storybook/preview-web": "next",
-    "@types/node": "^16.0.0",
-    "magic-string": "^0.26.1",
-    "storybook-solidjs": "next",
-    "ts-node": "^10.9.1",
-    "tsup": "^6.5.0",
-    "typescript": "~4.9.3",
-    "vite": "^4.1.1",
-    "vite-plugin-solid": "^2.5.0"
+    "@storybook/types": "next",
+    "solid-js": "^1.9.2",
+    "storybook": "next",
+    "storybook-solidjs": "workspace:*",
+    "vite": "^5.4.8"
   },
   "engines": {
-    "node": "^14.18 || >=16"
+    "node": ">=18"
   },
   "publishConfig": {
     "access": "public"
@@ -82,6 +73,5 @@
       "./src/preset.ts"
     ],
     "platform": "node"
-  },
-  "gitHead": "6559b419625c2dcf76bad1a12fcf75e3dd7c4187"
+  }
 }

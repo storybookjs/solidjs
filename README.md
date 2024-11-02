@@ -7,7 +7,7 @@ This is a framework to allow using [Storybook](https://storybook.js.org/) with [
 | `JS` and `TS` integration with Storybook cli        |  ✅   |
 | Fine grained updates in storybook controls          |  ✅   |
 | Compatible with `@storybook/addon-interactions`     |  ✅   |
-| Compatible with `@storybook/testing-library`        |  ✅   |
+| Compatible with `@storybook/test`                   |  ✅   |
 | Automatic story actions                             |  ⏳   |
 | Full props table with description in docs view mode |  ⏳   |
 | Code snippets generation in docs view mode          |  ⏳   |
@@ -25,9 +25,9 @@ This is a framework to allow using [Storybook](https://storybook.js.org/) with [
 
 ## Setup
 
-In an existing Solid project, run `npx storybook@next init` (Storybook 7+ is required)
+In an existing Solid project, run `npx storybook@next init` (Storybook 8+ is required)
 
-See the [Storybook Docs](https://storybook.js.org/docs/7.0/solid/get-started/introduction) for the best documentation on getting started with Storybook.
+See the [Storybook Docs](https://storybook.js.org/docs?renderer=solid) for the best documentation on getting started with Storybook.
 
 ## License
 

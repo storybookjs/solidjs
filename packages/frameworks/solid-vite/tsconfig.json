@@ -1,14 +1,8 @@
 {
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    "strict": false,
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "noEmit": true,
-    "isolatedModules": true,
-    "resolveJsonModule": true,
-    "types": ["vite/client", "node"]
-  }
+    "baseUrl": ".",
+    "rootDir": "./src"
+  },
+  "include": ["src/**/*"]
 }

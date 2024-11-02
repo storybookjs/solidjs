@@ -3,7 +3,7 @@ import './header.css';
 
 export const Header = (props) => (
   <header>
-    <div class="wrapper">
+    <div class="storybook-header">
       <div>
         <svg
           width="32"

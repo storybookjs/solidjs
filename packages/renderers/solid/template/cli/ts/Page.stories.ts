@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from 'storybook-solidjs';
-import { within, userEvent } from '@storybook/testing-library';
+import { expect, userEvent, within } from '@storybook/test';
 
 import { Page } from './Page';
 
@@ -7,7 +7,7 @@ const meta = {
   title: 'Example/Page',
   component: Page,
   parameters: {
-    // More on how to position stories at: https://storybook.js.org/docs/7.0/solid/configure/story-layout
+    // More on how to position stories at: https://storybook.js.org/docs/solid/configure/story-layout
     layout: 'fullscreen',
   },
 } satisfies Meta<typeof Page>;
@@ -17,13 +17,16 @@ type Story = StoryObj<typeof meta>;
 
 export const LoggedOut: Story = {};
 
-// More on interaction testing: https://storybook.js.org/docs/7.0/solid/writing-tests/interaction-testing
+// More on interaction testing: https://storybook.js.org/docs/solid/writing-tests/interaction-testing
 export const LoggedIn: Story = {
-  play: async ({ canvasElement }: any) => {
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
     const canvas = within(canvasElement);
-    const loginButton = canvas.getByRole('button', {
-      name: /Log in/i,
-    });
+    const loginButton = canvas.getByRole('button', { name: /Log in/i });
+    await expect(loginButton).toBeInTheDocument();
     await userEvent.click(loginButton);
+    await expect(loginButton).not.toBeInTheDocument();
+
+    const logoutButton = canvas.getByRole('button', { name: /Log out/i });
+    await expect(logoutButton).toBeInTheDocument();
   },
 };

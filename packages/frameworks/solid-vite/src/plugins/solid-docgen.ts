@@ -2,12 +2,10 @@ import { PluginOption } from 'vite';
 import MagicString from 'magic-string';
 
 export function solidDocgen(): PluginOption {
-  const cwd = process.cwd();
-
   return {
     enforce: 'pre',
     name: 'solid-docgen-plugin',
-    async transform(src: string, id: string, options) {
+    async transform(src: string, id: string) {
       if (id.match(/(node_modules|\.stories\.)/gi)) return undefined;
 
       //Solid Docgen will be only generated for tsx, jsx files.

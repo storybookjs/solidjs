@@ -15,7 +15,7 @@ interface HeaderProps {
 
 export const Header: Component<HeaderProps> = (props) => (
   <header>
-    <div class="wrapper">
+    <div class="storybook-header">
       <div>
         <svg
           width="32"

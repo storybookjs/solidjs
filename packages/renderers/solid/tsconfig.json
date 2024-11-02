@@ -1,16 +1,10 @@
 {
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    "strict": true,
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
-    "noEmit": true,
-    "isolatedModules": true,
-    "resolveJsonModule": true,
-    "types": ["@types/jest", "node"]
-  }
+    "baseUrl": ".",
+    "paths": {
+      "storybook-solidjs": ["./src"]
+    }
+  },
+  "include": ["src/**/*", "template/**/*"]
 }
