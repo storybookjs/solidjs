@@ -37,7 +37,8 @@ It has `yarn storybook` for testing Storybook and `yarn dev` for testing the app
 For testing with external projects that use Yarn, the framework and renderer can be linked locally.
 
 **Note:** The default Yarn Plug n' Play installs WILL NOT work when testing.
-This is because Yarn PnP will use virtual paths for dependencies of linked dependencies. The framework does not resolve these virtual paths, so your test app will break.
+This is because Yarn PnP will use virtual paths for dependencies of linked dependencies.
+The framework does not resolve these virtual paths, so your test app will break.
 This can be fixed by specifying the node linker to be "node-modules".
 
 ### Example External Testing App
