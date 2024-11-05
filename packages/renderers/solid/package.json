@@ -42,7 +42,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepack": "yarn build",
+    "prepack": "yarn build --optimized --reset",
     "build": "npx jiti ../../../scripts/prepare/build.ts",
     "check": "npx jiti ../../../scripts/prepare/check.ts"
   },
