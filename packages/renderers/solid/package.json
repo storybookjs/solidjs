@@ -52,13 +52,12 @@
     "@storybook/preview-api": "next",
     "@storybook/test": "next",
     "@storybook/types": "next",
+    "@types/babel__standalone": "link:.yarn/cache/null",
     "async-mutex": "^0.5.0",
-    "esbuild": "^0.24.0",
-    "esbuild-plugin-solid": "^0.6.0",
     "storybook": "next"
   },
   "peerDependencies": {
-    "solid-js": "^1.9.2"
+    "solid-js": "^1.9.3"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -74,5 +73,8 @@
       "./src/entry-preview-docs.tsx"
     ],
     "platform": "browser"
+  },
+  "dependencies": {
+    "@babel/standalone": "^7.26.2"
   }
 }

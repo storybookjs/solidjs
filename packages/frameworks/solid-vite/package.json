@@ -56,7 +56,7 @@
   },
   "devDependencies": {
     "@storybook/types": "next",
-    "solid-js": "^1.9.2",
+    "solid-js": "^1.9.3",
     "storybook": "next",
     "storybook-solidjs": "workspace:*",
     "vite": "^5.4.8"
