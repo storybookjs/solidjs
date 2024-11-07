@@ -50,4 +50,4 @@ jobs:
         run: yarn npm publish
         working-directory: packages/renderers/solid
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
