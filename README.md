@@ -3,13 +3,13 @@
 This is a framework to allow using [Storybook](https://storybook.js.org/) with [SolidJS](https://www.solidjs.com/).
 
 ## Features
-- [ ] `JS` and `TS` integration with Storybook CLI
+- [x] `JS` and `TS` integration with Storybook CLI
 - [x] Fine grained updates in storybook controls
 - [x] Compatible with `@storybook/addon-interactions`
 - [x] Compatible with `@storybook/test`
+- [x] Code snippets generation in docs view mode
 - [ ] Automatic story actions
 - [ ] Full props table with description in docs view mode
-- [ ] Code snippets generation in docs view mode
 - [ ] `SolidJS` docs in the official Storybook website
 
 ## Notes about pending features ⏳
