@@ -22,6 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Lib workflow
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
       - name: Check bundling
         run: yarn check
