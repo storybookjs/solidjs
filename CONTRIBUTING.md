@@ -18,8 +18,9 @@ Install dependencies with `yarn`.
 
 To build packages, run `yarn build`, either in the top-level for all or inside a specific package for one.
 
-For formatting and linting, run `yarn check:all` to run checks and `yarn fix:all` to apply fixes where possible.
-There is also `*:format` and `*:lint` variants for running them separately (e.g. `yarn check:format` to check formatting).
+For formatting, linting, and testing, run `yarn check:all` to run checks and `yarn fix:all` to apply fixes where possible.
+There is also `*:format`, `*:lint`, and `*:test` variants for running them separately (e.g. `yarn check:format` to check formatting).
+(There is no `fix:test` variant)
 These checks run during CI, so remember to run `yarn fix:all` before pushing (or create a githook to do it automatically).
 
 <details>
