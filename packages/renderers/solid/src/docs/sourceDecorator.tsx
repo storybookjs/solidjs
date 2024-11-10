@@ -73,7 +73,6 @@ export const sourceDecorator = (
   const name = ctx.title.split('/').at(-1)!;
 
   source = generateSolidSource(name, src);
-  console.log(source);
 
   return story;
 };
@@ -110,8 +109,6 @@ function generateSolidSource(name: string, src: string): string | null {
           },
     };
 
-    console.log(component);
-
     return generate(component, { compact: false }).code;
   } catch (e) {
     console.error(e);
@@ -119,6 +116,9 @@ function generateSolidSource(name: string, src: string): string | null {
   }
 }
 
+/**
+ * Convert any AST node to a JSX child node.
+ */
 function toJSXChild(node: any): object {
   if (
     t.isJSXElement(node) ||
@@ -162,7 +162,6 @@ interface SolidProps {
  */
 function parseProps(src: string): SolidProps {
   const ast = parser.parseExpression(src, { plugins: ['jsx'] });
-  console.log(ast);
   if (ast.type != 'ObjectExpression') throw 'Expected `ObjectExpression` type';
   // Find args property.
   const args_prop = ast.properties.find((v: any) => {
@@ -184,32 +183,99 @@ function parseProps(src: string): SolidProps {
   const attributes: object[] = [];
   let children: object[] | null = null;
   for (const el of args.properties) {
-    if (el.type != 'ObjectProperty') continue;
-    if (el.key.type != 'Identifier') continue;
+    let attr: object | null = null;
 
-    if (el.key.name == 'children') {
-      children = [toJSXChild(el.value)];
-      continue;
+    switch (el.type) {
+      case 'ObjectProperty':
+        if (el.key.type != 'Identifier') {
+          console.warn('Encountered computed key, skipping...');
+          continue;
+        }
+        if (el.key.name == 'children') {
+          children = [toJSXChild(el.value)];
+          continue;
+        }
+
+        attr = parseProperty(el);
+        break;
+      case 'ObjectMethod':
+        attr = parseMethod(el);
+        break;
+      case 'SpreadElement':
+        // Spread elements use external values, should not be used.
+        console.warn('Encountered spread element, skipping....');
+        continue;
     }
 
-    let value: any = {
-      type: 'JSXExpressionContainer',
-      expression: el.value,
-    };
-
-    if (el.value.type == 'BooleanLiteral' && el.value.value == true) {
-      value = undefined;
+    if (attr) {
+      attributes.push(attr);
     }
-
-    attributes.push({
-      type: 'JSXAttribute',
-      name: {
-        type: 'JSXIdentifier',
-        name: el.key.name,
-      },
-      value,
-    });
   }
 
   return { attributes, children };
+}
+
+/**
+ * Parse an object property.
+ *
+ * JSX flag attributes are mapped from boolean literals.
+ */
+function parseProperty(el: any): object | null {
+  let value: any = {
+    type: 'JSXExpressionContainer',
+    expression: el.value,
+  };
+
+  if (el.value.type == 'BooleanLiteral' && el.value.value == true) {
+    value = undefined;
+  }
+
+  return {
+    type: 'JSXAttribute',
+    name: {
+      type: 'JSXIdentifier',
+      name: el.key.name,
+    },
+    value,
+  };
+}
+
+/**
+ * Parse an object method.
+ *
+ * Note that object methods cannot be generators.
+ * This means that methods can be mapped straight to arrow functions.
+ */
+function parseMethod(el: any): object | null {
+  if (el.kind != 'method') {
+    console.warn('Encountered getter or setter, skipping...');
+    return null;
+  }
+
+  if (el.key.type != 'Identifier') {
+    console.warn('Encountered computed key, skipping...');
+    return null;
+  }
+
+  const { params, body, async, returnType, typeParameters } = el;
+
+  return {
+    type: 'JSXAttribute',
+    name: {
+      type: 'JSXIdentifier',
+      name: el.key.name,
+    },
+    value: {
+      type: 'JSXExpressionContainer',
+      expression: {
+        type: 'ArrowFunctionExpression',
+        params,
+        body,
+        async,
+        expression: false,
+        returnType,
+        typeParameters,
+      },
+    },
+  };
 }
