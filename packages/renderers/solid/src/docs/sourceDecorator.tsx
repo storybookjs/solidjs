@@ -201,7 +201,7 @@ function parseProps(src: string): SolidProps {
         break;
       case 'SpreadElement':
         // Spread elements use external values, should not be used.
-        console.warn('Encountered spread element, skipping....');
+        console.warn('Encountered spread element, skipping...');
         continue;
     }
 
