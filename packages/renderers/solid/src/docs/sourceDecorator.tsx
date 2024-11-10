@@ -56,8 +56,7 @@ export const sourceDecorator = (
   const story = storyFn();
   const skip = skipSourceRender(ctx);
 
-  // eslint-disable-next-line prefer-const
-  let source: string | null;
+  let source: string | null = null;
 
   useEffect(() => {
     if (!skip && source) {
@@ -72,7 +71,11 @@ export const sourceDecorator = (
   const src = docs?.source?.originalSource;
   const name = ctx.title.split('/').at(-1)!;
 
-  source = generateSolidSource(name, src);
+  try {
+    source = generateSolidSource(name, src);
+  } catch (e) {
+    console.error(e);
+  }
 
   return story;
 };
@@ -80,40 +83,35 @@ export const sourceDecorator = (
 /**
  * Generate Solid JSX from story source.
  */
-function generateSolidSource(name: string, src: string): string | null {
-  try {
-    const { attributes, children } = parseProps(src);
+export function generateSolidSource(name: string, src: string): string {
+  const { attributes, children } = parseProps(src);
 
-    const selfClosing = children == null || children.length == 0;
+  const selfClosing = children == null || children.length == 0;
 
-    const component = {
-      type: 'JSXElement',
-      openingElement: {
-        type: 'JSXOpeningElement',
-        name: {
-          type: 'JSXIdentifier',
-          name,
-        },
-        attributes: attributes,
-        selfClosing,
+  const component = {
+    type: 'JSXElement',
+    openingElement: {
+      type: 'JSXOpeningElement',
+      name: {
+        type: 'JSXIdentifier',
+        name,
       },
-      children: children ?? [],
-      closingElement: selfClosing
-        ? undefined
-        : {
-            type: 'JSXClosingElement',
-            name: {
-              type: 'JSXIdentifier',
-              name,
-            },
+      attributes: attributes,
+      selfClosing,
+    },
+    children: children ?? [],
+    closingElement: selfClosing
+      ? undefined
+      : {
+          type: 'JSXClosingElement',
+          name: {
+            type: 'JSXIdentifier',
+            name,
           },
-    };
+        },
+  };
 
-    return generate(component, { compact: false }).code;
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
+  return generate(component, { compact: false }).code;
 }
 
 /**
@@ -169,7 +167,7 @@ function parseProps(src: string): SolidProps {
     if (v.key.type != 'Identifier') return false;
     return v.key.name == 'args';
   }) as any | undefined;
-  // No args just there aren't any properties or children.
+  // No args, so there aren't any properties or children.
   if (!args_prop)
     return {
       attributes: [],
