@@ -14,6 +14,12 @@ on:
     types: [published]
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish?
+        required: false
+        type: boolean
 defaults:
   run:
     working-directory: packages/renderers/solid
@@ -28,8 +34,13 @@ jobs:
         run: yarn check
         working-directory: packages/renderers/solid
       - name: Publish to NPM
-        if: github.event_name == 'release'
+        if: github.event_name == 'release' || inputs.publish
         run: yarn npm publish
         working-directory: packages/renderers/solid
         env:
           YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  solid-vite-workflow:
+    needs: solid-workflow
+    uses: ./.github/workflows/solid-vite.yml
+    with:
+      publish: ${{ github.event_name == 'release' || inputs.publish }}
