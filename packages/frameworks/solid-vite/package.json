@@ -1,7 +1,7 @@
 {
   "name": "storybook-solidjs-vite",
   "type": "module",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "Storybook for SolidJS and Vite: Develop SolidJS in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -45,7 +45,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prepack": "yarn build",
+    "prepack": "yarn build --optimized --reset",
     "build": "npx jiti ../../../scripts/prepare/build.ts",
     "check": "npx jiti ../../../scripts/prepare/check.ts"
   },
@@ -56,7 +56,7 @@
   },
   "devDependencies": {
     "@storybook/types": "next",
-    "solid-js": "^1.9.2",
+    "solid-js": "^1.9.3",
     "storybook": "next",
     "storybook-solidjs": "workspace:*",
     "vite": "^5.4.8"

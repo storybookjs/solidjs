@@ -4,7 +4,7 @@ import {
   enhanceArgTypes,
   extractComponentDescription,
 } from '@storybook/docs-tools';
-import { jsxDecorator } from './docs/jsxDecorator';
+import { sourceDecorator } from './docs/sourceDecorator';
 import type { Decorator, SolidRenderer } from './public-types';
 import { ArgTypesEnhancer } from '@storybook/types';
 
@@ -15,7 +15,7 @@ export const parameters = {
   },
 };
 
-export const decorators: Decorator[] = [jsxDecorator];
+export const decorators: Decorator[] = [sourceDecorator];
 
 export const argTypesEnhancers: ArgTypesEnhancer<SolidRenderer>[] = [
   enhanceArgTypes,
