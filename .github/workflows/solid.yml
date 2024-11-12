@@ -12,14 +12,13 @@ on:
       - packages/renderers/solid/**
   release:
     types: [published]
-    branches:
-      - main
   workflow_dispatch:
     inputs:
       publish:
         description: Publish?
         required: false
         type: boolean
+        default: false
 defaults:
   run:
     working-directory: packages/renderers/solid
@@ -44,3 +43,4 @@ jobs:
     uses: ./.github/workflows/solid-vite.yml
     with:
       publish: ${{ github.event_name == 'release' || inputs.publish }}
+    secrets: inherit
