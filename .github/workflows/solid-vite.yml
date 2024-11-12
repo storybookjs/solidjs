@@ -1,11 +1,17 @@
 name: Solid Vite Pipeline
 on:
-  workflow_run:
-    workflows: ['Solid Renderer Pipeline']
-    types:
-      - completed
-    branches:
-      - main
+  workflow_call:
+    inputs:
+      publish:
+        description: Publish?
+        required: false
+        type: boolean
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish?
+        required: false
+        type: boolean
 defaults:
   run:
     working-directory: packages/frameworks/solid-vite
@@ -20,7 +26,7 @@ jobs:
         run: yarn check
         working-directory: packages/frameworks/solid-vite
       - name: Publish to NPM
-        if: github.event_name == 'release'
+        if: inputs.publish
         run: yarn npm publish
         working-directory: packages/frameworks/solid-vite
         env:
