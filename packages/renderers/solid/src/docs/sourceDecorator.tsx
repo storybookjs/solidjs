@@ -159,7 +159,7 @@ interface SolidProps {
  * The source code will be in the form of a `Story` object.
  */
 function parseProps(src: string): SolidProps {
-  const ast = parser.parseExpression(src, { plugins: ['jsx'] });
+  const ast = parser.parseExpression(src, { plugins: ['jsx', 'typescript'] });
   if (ast.type != 'ObjectExpression') throw 'Expected `ObjectExpression` type';
   // Find args property.
   const args_prop = ast.properties.find((v: any) => {
