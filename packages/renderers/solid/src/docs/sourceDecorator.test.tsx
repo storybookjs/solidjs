@@ -61,6 +61,19 @@ test('component with method prop', () => {
   `);
 });
 
+test('component with typescript', () => {
+  const newSrc = generateSolidSource(
+    'Component',
+    '{ args: { double: (x: number) => { return x * 2; } } }',
+  );
+
+  expect(newSrc).toMatchInlineSnapshot(`
+    "<Component double={(x: number) => {
+      return x * 2;
+    }} />"
+  `);
+});
+
 test('component missing story config', () => {
   const newSrc = () => generateSolidSource('Component', '5 + 4');
 
