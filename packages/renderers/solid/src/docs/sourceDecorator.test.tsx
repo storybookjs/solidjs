@@ -115,6 +115,19 @@ test('component with render function and args', () => {
   `);
 });
 
+test('component with render function and missing args', () => {
+  const newSrc = generateSolidSource(
+    'Component',
+    '{ render: (args) => <Component {...args}>Hello</Component> }',
+  );
+
+  expect(newSrc).toMatchInlineSnapshot(`
+    "const args = {};
+
+    <Component {...args}>Hello</Component>"
+  `);
+});
+
 test('component with render function and args and ctx', () => {
   const newSrc = generateSolidSource(
     'Component',

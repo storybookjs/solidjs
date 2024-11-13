@@ -94,7 +94,12 @@ export function generateSolidSource(name: string, src: string): string {
     let newSrc = '';
 
     // Add arguments declaration.
-    if (original && params[0]) {
+    if (params[0]) {
+      const args = original ?? {
+        type: 'ObjectExpression',
+        properties: [],
+      };
+
       const argsStatement = {
         type: 'VariableDeclaration',
         kind: 'const',
@@ -105,7 +110,7 @@ export function generateSolidSource(name: string, src: string): string {
               type: 'Identifier',
               name: params[0],
             },
-            init: original,
+            init: args,
           },
         ],
       };
