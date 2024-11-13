@@ -84,7 +84,65 @@ export const sourceDecorator = (
  * Generate Solid JSX from story source.
  */
 export function generateSolidSource(name: string, src: string): string {
-  const { attributes, children } = parseProps(src);
+  const ast = parser.parseExpression(src, { plugins: ['jsx', 'typescript'] });
+  const { attributes, children, original } = parseArgs(ast);
+  const render = parseRender(ast);
+
+  // If there is a render function, display it to the best of our ability.
+  if (render) {
+    const { body, params } = render;
+    let newSrc = '';
+
+    // Add arguments declaration.
+    if (params[0]) {
+      const args = original ?? {
+        type: 'ObjectExpression',
+        properties: [],
+      };
+
+      const argsStatement = {
+        type: 'VariableDeclaration',
+        kind: 'const',
+        declarations: [
+          {
+            type: 'VariableDeclarator',
+            id: {
+              type: 'Identifier',
+              name: params[0],
+            },
+            init: args,
+          },
+        ],
+      };
+
+      newSrc += generate(argsStatement, { compact: false }).code + '\n\n';
+    }
+
+    // Add context declaration.
+    if (params[1]) {
+      const ctxStatement = {
+        type: 'VariableDeclaration',
+        kind: 'var',
+        declarations: [
+          {
+            type: 'VariableDeclarator',
+            id: {
+              type: 'Identifier',
+              name: params[1],
+            },
+          },
+        ],
+      };
+
+      newSrc += generate(ctxStatement, { compact: false }).code + '\n\n';
+    }
+
+    newSrc += generate(body, { compact: false }).code;
+
+    return newSrc;
+  }
+
+  // Otherwise, render a component with the arguments.
 
   const selfClosing = children == null || children.length == 0;
 
@@ -138,49 +196,82 @@ function toJSXChild(node: any): object {
   if (t.isExpression(node)) {
     return {
       type: 'JSXExpressionContainer',
-      value: node,
+      expression: node,
     };
   }
 
   return {
     type: 'JSXExpressionContainer',
-    value: t.jsxEmptyExpression(),
+    expression: t.jsxEmptyExpression(),
+  };
+}
+/** Story render function. */
+interface SolidRender {
+  body: object;
+  params: string[];
+}
+
+function parseRender(ast: any): SolidRender | null {
+  if (ast.type != 'ObjectExpression') throw 'Expected `ObjectExpression` type';
+  // Find render property.
+  const renderProp = ast.properties.find((v: any) => {
+    if (v.type != 'ObjectProperty') return false;
+    if (v.key.type != 'Identifier') return false;
+    return v.key.name == 'render';
+  }) as any | undefined;
+  if (!renderProp) return null;
+
+  const renderFn = renderProp.value;
+  if (
+    renderFn.type != 'ArrowFunctionExpression' &&
+    renderFn.type != 'FunctionExpression'
+  ) {
+    console.warn('`render` property is not a function, skipping...');
+    return null;
+  }
+
+  return {
+    body: renderFn.body,
+    params: renderFn.params.map((x: any) => x.name),
   };
 }
 
-interface SolidProps {
+/** Story arguments. */
+interface SolidArgs {
   attributes: object[];
   children: object[] | null;
+  original: object | null;
 }
 
 /**
- * Parses component properties from source expression.
+ * Parses component arguments from source expression.
  *
  * The source code will be in the form of a `Story` object.
  */
-function parseProps(src: string): SolidProps {
-  const ast = parser.parseExpression(src, { plugins: ['jsx', 'typescript'] });
+function parseArgs(ast: any): SolidArgs {
   if (ast.type != 'ObjectExpression') throw 'Expected `ObjectExpression` type';
   // Find args property.
-  const args_prop = ast.properties.find((v: any) => {
+  const argsProp = ast.properties.find((v: any) => {
     if (v.type != 'ObjectProperty') return false;
     if (v.key.type != 'Identifier') return false;
     return v.key.name == 'args';
   }) as any | undefined;
   // No args, so there aren't any properties or children.
-  if (!args_prop)
+  if (!argsProp)
     return {
       attributes: [],
       children: null,
+      original: null,
     };
   // Get arguments.
-  const args = args_prop.value;
-  if (args.type != 'ObjectExpression') throw 'Expected `ObjectExpression` type';
+  const original = argsProp.value;
+  if (original.type != 'ObjectExpression')
+    throw 'Expected `ObjectExpression` type';
 
   // Construct props object, where values are source code slices.
   const attributes: object[] = [];
   let children: object[] | null = null;
-  for (const el of args.properties) {
+  for (const el of original.properties) {
     let attr: object | null = null;
 
     switch (el.type) {
@@ -210,7 +301,7 @@ function parseProps(src: string): SolidProps {
     }
   }
 
-  return { attributes, children };
+  return { attributes, children, original };
 }
 
 /**
