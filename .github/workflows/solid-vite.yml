@@ -6,12 +6,14 @@ on:
         description: Publish?
         required: false
         type: boolean
+        default: false
   workflow_dispatch:
     inputs:
       publish:
         description: Publish?
         required: false
         type: boolean
+        default: false
 defaults:
   run:
     working-directory: packages/frameworks/solid-vite
