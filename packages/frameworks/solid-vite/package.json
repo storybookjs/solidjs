@@ -1,6 +1,5 @@
 {
   "name": "storybook-solidjs-vite",
-  "type": "module",
   "version": "1.0.0-beta.6",
   "description": "Storybook for SolidJS and Vite: Develop SolidJS in isolation with Hot Reloading.",
   "keywords": [

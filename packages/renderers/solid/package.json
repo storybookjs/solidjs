@@ -1,6 +1,5 @@
 {
   "name": "storybook-solidjs",
-  "type": "module",
   "version": "1.0.0-beta.6",
   "description": "Storybook SolidJS renderer",
   "keywords": [
