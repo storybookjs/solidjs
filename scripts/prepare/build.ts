@@ -125,7 +125,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     clean: false,
     ...(dtsBuild === 'esm' ? dtsConfig : {}),
     platform: platform || 'browser',
-    esbuildPlugins:
+    plugins:
       platform === 'node'
         ? [solidPlugin()]
         : [
@@ -159,7 +159,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       ...(dtsBuild === 'cjs' ? dtsConfig : {}),
       platform: 'node',
       clean: false,
-      esbuildPlugins: [solidPlugin()],
+      plugins: [solidPlugin()],
       external: externals,
       outExtension,
 
