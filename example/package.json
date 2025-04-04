@@ -21,13 +21,13 @@
     "@storybook/test": "next",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
-    "solid-devtools": "^0.29.2",
+    "solid-devtools": "^0.33.0",
     "storybook": "next",
     "storybook-solidjs": "workspace:*",
     "storybook-solidjs-vite": "workspace:*",
     "tailwindcss": "^3.4.14",
-    "typescript": "^5.6.3",
-    "vite": "^5.4.8",
+    "typescript": "5.7.3",
+    "vite": "^6.0.0",
     "vite-plugin-solid": "^2.8.2"
   },
   "dependencies": {

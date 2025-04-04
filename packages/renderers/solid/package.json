@@ -1,7 +1,6 @@
 {
   "name": "storybook-solidjs",
-  "type": "module",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0-beta.7",
   "description": "Storybook SolidJS renderer",
   "keywords": [
     "storybook"
@@ -46,18 +45,27 @@
     "build": "npx jiti ../../../scripts/prepare/build.ts",
     "check": "npx jiti ../../../scripts/prepare/check.ts"
   },
-  "devDependencies": {
+  "dependencies": {
+    "@babel/standalone": "^7.26.2",
     "@storybook/docs-tools": "next",
     "@storybook/global": "^5.0.0",
     "@storybook/preview-api": "next",
-    "@storybook/test": "next",
     "@storybook/types": "next",
     "@types/babel__standalone": "link:.yarn/cache/null",
-    "async-mutex": "^0.5.0",
+    "async-mutex": "^0.5.0"
+  },
+  "devDependencies": {
     "storybook": "next"
   },
   "peerDependencies": {
-    "solid-js": "^1.9.3"
+    "@storybook/test": "*",
+    "solid-js": "~1.9.0",
+    "storybook": "*"
+  },
+  "peerDependenciesMeta": {
+    "@storybook/test": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=18.0.0"
@@ -73,8 +81,5 @@
       "./src/entry-preview-docs.tsx"
     ],
     "platform": "browser"
-  },
-  "dependencies": {
-    "@babel/standalone": "^7.26.2"
   }
 }
