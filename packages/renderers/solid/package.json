@@ -51,10 +51,10 @@
     "@storybook/global": "^5.0.0",
     "@storybook/preview-api": "next",
     "@storybook/types": "next",
-    "@types/babel__standalone": "link:.yarn/cache/null",
     "async-mutex": "^0.5.0"
   },
   "devDependencies": {
+    "@types/babel__standalone": "link:.yarn/cache/null",
     "storybook": "next"
   },
   "peerDependencies": {
