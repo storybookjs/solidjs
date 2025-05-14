@@ -10,7 +10,7 @@ const App: Component = () => {
       <header class={styles.header}>
         <Logos />
         <p>
-          You're using <code>storybook-solidjs</code>!
+          You're using <code>moreapp-storybook-solidjs</code>!
         </p>
         <Link
           href="https://github.com/solidjs/solid"

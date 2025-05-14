@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "storybook-solidjs": ["./src"]
+      "moreapp-storybook-solidjs": ["./src"]
     }
   },
   "include": ["src/**/*", "template/**/*"]

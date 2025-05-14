@@ -22,7 +22,7 @@ import * as INTERNAL_DEFAULT_PROJECT_ANNOTATIONS from './entry-preview';
  *
  * ```jsx
  * // setup-file.js
- * import { setProjectAnnotations } from 'storybook-solidjs';
+ * import { setProjectAnnotations } from 'moreapp-storybook-solidjs';
  * import projectAnnotations from './.storybook/preview';
  *
  * setProjectAnnotations(projectAnnotations);

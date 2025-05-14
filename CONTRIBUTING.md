@@ -1,6 +1,6 @@
 # Getting Started
 
-storybook-solidjs is developed against a specific node version which is defined in an `.nvmrc` file. You can use any Node version manager that uses the `.nvmrc` configuration file.
+moreapp-storybook-solidjs is developed against a specific node version which is defined in an `.nvmrc` file. You can use any Node version manager that uses the `.nvmrc` configuration file.
 
 ## Ensure you have the required system utilities
 

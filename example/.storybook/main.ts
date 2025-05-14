@@ -1,4 +1,4 @@
-import type { StorybookConfig } from 'storybook-solidjs-vite';
+import type { StorybookConfig } from 'moreapp-storybook-solidjs-vite';
 
 import { join, dirname } from 'path';
 
@@ -18,7 +18,7 @@ const config: StorybookConfig = {
     getAbsolutePath('@storybook/addon-interactions'),
   ],
   framework: {
-    name: getAbsolutePath('storybook-solidjs-vite'),
+    name: getAbsolutePath('moreapp-storybook-solidjs-vite'),
     options: {},
   },
 };

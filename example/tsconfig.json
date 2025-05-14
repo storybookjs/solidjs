@@ -3,8 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "storybook-solidjs": ["../packages/renderers/solid"],
-      "storybook-solidjs-vite": ["../packages/frameworks/solid-vite"]
+      "moreapp-storybook-solidjs": ["../packages/renderers/solid"],
+      "moreapp-storybook-solidjs-vite": ["../packages/frameworks/solid-vite"]
     },
     "types": ["vite/client"]
   }

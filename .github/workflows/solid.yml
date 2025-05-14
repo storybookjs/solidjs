@@ -1,27 +1,19 @@
 name: Solid Renderer Pipeline
+
 on:
-  pull_request:
-    branches:
-      - '*'
-    paths:
-      - packages/renderers/solid/**
-  push:
-    branches:
-      - main
-    paths:
-      - packages/renderers/solid/**
-  release:
-    types: [published]
   workflow_dispatch:
     inputs:
-      publish:
-        description: Publish?
-        required: false
-        type: boolean
-        default: false
-defaults:
-  run:
-    working-directory: packages/renderers/solid
+      version:
+        description: Version update type
+        default: minor
+        options:
+          - major
+          - minor
+          - patch
+
+permissions:
+  contents: write
+
 jobs:
   solid-workflow:
     runs-on: ubuntu-latest
@@ -29,18 +21,38 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-      - name: Check bundling
+
+      - name: Check bundling renderer
         run: yarn check
         working-directory: packages/renderers/solid
-      - name: Publish to NPM
-        if: github.event_name == 'release' || inputs.publish
-        run: yarn npm publish
+
+      - name: Bump package version renderer
+        run: yarn npm version ${{ inputs.version }} -m "Upgrade to %s [skip ci]"
+        working-directory: packages/renderers/solid
+
+      - name: Check bundling vite
+        run: yarn check
+        working-directory: packages/frameworks/solid-vite
+
+      - name: Bump package version vite
+        run: yarn npm version ${{ inputs.version }} -m "Upgrade to %s [skip ci]"
+        working-directory: packages/frameworks/solid-vite
+
+      - name: Create new tag
+        run: |
+          git config --global user.email "developers@moreapp.com"
+          git config --global user.name "GitHub Actions"
+          git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" --tags
+
+      - name: Publish renderer to NPM
+        run: yarn npm publish --access public
         working-directory: packages/renderers/solid
         env:
           YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  solid-vite-workflow:
-    needs: solid-workflow
-    uses: ./.github/workflows/solid-vite.yml
-    with:
-      publish: ${{ (github.event_name == 'release') || (inputs.publish == true) }}
-    secrets: inherit
+
+      - name: Publish vite to NPM
+        run: yarn npm publish --access public
+        working-directory: packages/frameworks/solid-vite
+        env:
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

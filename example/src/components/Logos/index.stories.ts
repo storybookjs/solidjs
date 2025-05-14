@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from 'storybook-solidjs';
+import type { Meta, StoryObj } from 'moreapp-storybook-solidjs';
 import { Logos } from '.';
 
 const meta: Meta<typeof Logos> = {
