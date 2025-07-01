@@ -5,14 +5,13 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/solid-vite",
+  "homepage": "https://github.com/solidjs-community/storybook",
   "bugs": {
-    "url": "https://github.com/storybookjs/solidjs/issues"
+    "url": "https://github.com/solidjs-community/storybook/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/storybookjs/solidjs.git",
-    "directory": "frameworks/solid-vite"
+    "url": "https://github.com/solidjs-community/storybook.git"
   },
   "funding": {
     "type": "opencollective",

@@ -1,3 +1,7 @@
+> NOTE: We are transitioning this repo to SolidJS community maintenance at
+>
+> https://github.com/solidjs-community/storybook
+
 # Storybook SolidJS
 
 This is a framework to allow using [Storybook](https://storybook.js.org/) with [SolidJS](https://www.solidjs.com/).
